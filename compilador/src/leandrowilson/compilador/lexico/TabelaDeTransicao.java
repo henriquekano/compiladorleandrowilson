@@ -29,7 +29,7 @@ public class TabelaDeTransicao {
 		}
 	}
 	
-	public int proximoEstado(int estadoAtual,char caracterLido){
+	public int proximoEstado(int estadoAtual,int caracterLido){
 		return tabelaDeTransicao[estadoAtual][caracterLido];
 	}
 }
