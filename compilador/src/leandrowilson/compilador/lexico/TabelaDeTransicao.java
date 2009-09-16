@@ -12,6 +12,12 @@ public class TabelaDeTransicao {
 	public TabelaDeTransicao() {
 		tabelaDeTransicao = new int[ESTADOS_QUANT][ASCII_TAMANHO];
 		inicializaTabelaDeTransicaoVazia();
+		inicializaEstadosFinais();
+	}
+
+	private void inicializaEstadosFinais() {
+		// TODO Auto-generated method stub
+		
 	}
 
 	private void inicializaTabelaDeTransicaoVazia() {
@@ -21,5 +27,9 @@ public class TabelaDeTransicao {
 			}
 
 		}
+	}
+	
+	public int proximoEstado(int estadoAtual,char caracterLido){
+		return tabelaDeTransicao[estadoAtual][caracterLido];
 	}
 }

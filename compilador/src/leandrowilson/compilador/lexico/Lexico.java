@@ -1,22 +1,29 @@
 package leandrowilson.compilador.lexico;
 
-import leandrowilson.compilador.lexico.PalavraReservada;
+import leandrowilson.compilador.lexico.*;
 
 public class Lexico {
     private final int MAXBUFFER = 4096;
-	private int[][] tabelaDeTransicao;
 	private int estadoAtual ;
 	private int[] bufferDeLeitura1;
 	private int[] bufferDeLeitura2;
 	private int bufferEmUso;
 	private int posicaoDoBuffer;
+	private TabelaDeTransicao tabelaDeTransicao;
+	private String nomeDoArquivo;
+	private List listaDeTokens;
 	
 	public Lexico() {
-		tabelaDeTransicao = inicializaTabelaDeTransicao();
+		tabelaDeTransicao= new TabelaDeTransicao();
 		estadoAtual = 0;
 		bufferDeLeitura1 = new int[MAXBUFFER];
 		bufferDeLeitura2 = new int[MAXBUFFER];
 		posicaoDoBuffer = -1;
+	}
+
+	public List obterListaDeTokens(String nomeDoArquivo){
+		
+		return listaDeTokens;
 	}
 
 	/**
