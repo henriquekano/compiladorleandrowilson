@@ -28,7 +28,7 @@ public class TabelaDeTransicao {
 	private void inicializaTabelaDeTransicaoVazia() {
 		//preenche toda a Tabela de Tranição com Estado de Erro
 		for (int i = 0;i<ESTADOS_QUANT;i++){
-			for (int j = 0;i<ASCII_TAMANHO;i++){
+			for (int j = 0;j<ASCII_TAMANHO;j++){
 				tabelaDeTransicao[i][j]=ESTADO_ERRO;
 			}
 
@@ -43,5 +43,14 @@ public class TabelaDeTransicao {
 	private void inicializaTabelaDeTransicao() {
 		//Preenche a Tabela de Transição
 		//tabelaDeTransicao[0][0] = 0;
+	}
+
+	public boolean estadoFinal(int estado) {
+		boolean achouEstadoFinal = false;
+		for (int i = 0;i<ESTADOS_QUANT;i++)
+		{
+			achouEstadoFinal=(estadosFinais[i]==estado);
+		}
+		return achouEstadoFinal;
 	}
 }
