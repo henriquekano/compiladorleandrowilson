@@ -1,5 +1,12 @@
 package leandrowilson.compilador.lexico;
 
+import java.io.BufferedInputStream;
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 import leandrowilson.compilador.lexico.*;
 
 public class Lexico {
@@ -19,6 +26,10 @@ public class Lexico {
 	private List listaDeTokens;
 	private char[] tokenBuffer; //buffer para ir armazenando caracter a cartecer lido. É resetado quando um token é gerado(volta pro estado 0)
 	private int tokenBufferPointer; // Ponteiro para o tokenBuffer
+	private File arquivoLido ; //Arquivo
+	FileInputStream fis =null ; //FileInputStream
+	BufferedInputStream bis =null; //BufferedInputStream
+	DataInputStream dis =null; //DataInputStream
 	
 	public Lexico() {
 		tabelaDeTransicao= new TabelaDeTransicao();
@@ -83,9 +94,43 @@ public class Lexico {
 	 * Este metodo le o arquivo inicializa corretamente o buffer
 	 * @param nomeDoArquivo2
 	 */
-	private void leArquivo(String nomeDoArquivo2) {
-		// TODO Auto-generated method stub
-		
+	private void leArquivo(String nomeDoArquivo) {
+		    arquivoLido = new File("C:\\test.txt");
+		    FileInputStream fis = null;
+		    BufferedInputStream bis = null;
+		    DataInputStream dis = null;
+
+		    try {
+			    if (!file.canRead()){
+			    	System.out.println("Arquivo não disponível para leitura");
+			    }
+			    else
+			    {
+			      fis = new FileInputStream(file);
+	
+			      // Here BufferedInputStream is added for fast reading.
+			      bis = new BufferedInputStream(fis);
+			      dis = new DataInputStream(bis);
+	
+			      // dis.available() returns 0 if the file does not have more lines.
+			      while (dis.available() != 0) {
+			      // this statement reads the line from the file and print it to
+			        // the console.
+			        System.out.println(dis.readChar());
+			      }
+	
+			      // dispose all the resources after using them.
+			      fis.close();
+			      bis.close();
+			      dis.close();
+			    }
+		    } catch (FileNotFoundException e) {
+		    	System.out.println("Arquivo não encontrado");
+		      e.printStackTrace();
+		    } catch (IOException e) {
+		    	System.out.println("Erro de E/S");
+		      e.printStackTrace();
+		    }		
 	}
 
 	
