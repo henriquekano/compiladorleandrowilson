@@ -40,14 +40,15 @@ public class Lexico {
 	
 	public Lexico() {
 		tabelaDeTransicao= new TabelaDeTransicao();
-		estadoAtual = 0;
 		bufferDeLeitura1 = new char[TAMANHOBUFFER];
 		bufferDeLeitura2 = new char[TAMANHOBUFFER];
+		ESTADO_INICIAL=tabelaDeTransicao.ESTADO_INICIAL;
+		estadoAtual = ESTADO_INICIAL;
 		posicaoDoBuffer = -1;
 		//tokenBuffer = new char[MAX_TAMANHO_TOKEN];
 		tokenBuffer =new StringBuffer();
 		//tokenBufferPointer = -1;
-		ESTADO_INICIAL=tabelaDeTransicao.ESTADO_INICIAL;
+		
 	}
 	
 	public List obterListaDeTokens(String nomeDoArquivo){
