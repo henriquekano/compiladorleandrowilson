@@ -26,7 +26,7 @@ public class Compilador {
 		Token token;
 		for(int i =0;i<listaDeTokens.tamanho;i++){
 			token = (Token)listaDeTokens.get(i);
-			System.out.println("<"+token.tipo+">,<"+String.valueOf(token.valor)+">");
+			System.out.println(i+"-<"+token.tipo+">,<"+String.valueOf(token.valor)+">");
 		}
 		
 	}

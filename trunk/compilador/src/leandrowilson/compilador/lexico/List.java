@@ -1,6 +1,5 @@
 package leandrowilson.compilador.lexico;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class List {
 	public Object elementos[];
