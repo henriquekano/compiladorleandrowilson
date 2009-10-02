@@ -3,7 +3,7 @@ package leandrowilson.compilador.lexico;
 public class TabelaDeTransicao {
 	private int[][] tabelaDeTransicao;
 	//Estado final de erro  - alterar posteriormente
-	public final int ESTADO_INICIAL = 0;
+	public final int ESTADO_INICIAL = 2;
 	public final int ESTADO_ERRO =7; 
 	private final int ASCII_TAMANHO = 256;
     private final int ESTADOS_QUANT = 8;
@@ -50,14 +50,68 @@ public class TabelaDeTransicao {
 		//Preenche a Tabela de Transição
 		//tabelaDeTransicao[ESTADO][CARACTER] = 0;
 		//tabelaDeTransicao[0][0] = 0;
-		tabelaDeTransicao[0]['a'] = 1;
-		tabelaDeTransicao[1]['b'] = 2;
-		tabelaDeTransicao[2]['c'] = 3;
-		tabelaDeTransicao[0]['1'] = 4;
-		tabelaDeTransicao[4]['2'] = 5;
-		tabelaDeTransicao[5]['3'] = 6;
 		
+		//preenche transição dos estados finais
+		for (int i = 0;i<ASCII_TAMANHO;i++){
+			tabelaDeTransicao[0][i]=2;
+			tabelaDeTransicao[8][i]=2;
+			tabelaDeTransicao[11][i]=2;
+			tabelaDeTransicao[12][i]=2;
+			tabelaDeTransicao[13][i]=2;
+		}
 		
+		//preenche o padrão dos outros estados (preenche com a maioria da tabela)
+		//Deixei separado do FOR acima para ficar organizado, os estados abaixo ainda serão alterados
+		for (int i = 0;i<ASCII_TAMANHO;i++){
+			tabelaDeTransicao[1][i]=0;
+			tabelaDeTransicao[2][i]=ESTADO_ERRO;
+			tabelaDeTransicao[3][i]=12;
+			tabelaDeTransicao[4][i]=ESTADO_ERRO;
+			tabelaDeTransicao[5][i]=12;
+			tabelaDeTransicao[6][i]=13;
+			tabelaDeTransicao[7][i]=ESTADO_ERRO;
+			tabelaDeTransicao[9][i]=13;
+			tabelaDeTransicao[10][i]=10;
+		}
+		
+		//preenche [A-Za-z] dos estados
+		//A = 65
+		//Z = 90
+		//a = 97
+		//z = 122
+		for (int i = 65;i<=122;i++){
+			tabelaDeTransicao[1][i]=1;
+			tabelaDeTransicao[2][i]=1;
+			//Gambiarra pra pular os caracteres intermediários --> Não testado
+			if(i == 90) i = 96;
+		}
+		
+		//preenche [0-9] dos estados
+		//'0' = 48
+		//'9' = 57
+		for (int i = 48;i<=57;i++){
+			tabelaDeTransicao[1][i]=1;
+			tabelaDeTransicao[2][i]=3;
+			tabelaDeTransicao[3][i]=ESTADO_ERRO;
+			tabelaDeTransicao[4][i]=5;
+			tabelaDeTransicao[5][i]=5;
+		}
+
+		//preenche o resto
+		tabelaDeTransicao[2][33]=7;
+		tabelaDeTransicao[2][34]=10;
+		tabelaDeTransicao[2][42]=8;
+		tabelaDeTransicao[2][43]=8;
+		tabelaDeTransicao[2][45]=8;
+		tabelaDeTransicao[2][47]=8;
+		tabelaDeTransicao[2][60]=9;
+		tabelaDeTransicao[2][61]=6;
+		tabelaDeTransicao[2][62]=9;
+		tabelaDeTransicao[3][46]=4;
+		tabelaDeTransicao[6][61]=8;
+		tabelaDeTransicao[7][61]=8;
+		tabelaDeTransicao[9][61]=8;
+		tabelaDeTransicao[10][34]=11;
 	}
 
 	public boolean estadoFinal(int estado) {
