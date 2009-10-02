@@ -4,6 +4,8 @@ public enum TipoToken {
 	//TODO Completar os tipos
 	ID,
 	ATRIB,
-	NUMERO
+	NUMERO,
+	OPREL,
+	STRING
 	
 }
