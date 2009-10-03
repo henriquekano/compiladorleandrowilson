@@ -3,10 +3,16 @@ package leandrowilson.compilador.lexico;
 public class TabelaDeTransicao {
 	private int[][] tabelaDeTransicao;
 	//Estado final de erro  - alterar posteriormente
-	public final int ESTADO_INICIAL = 2;
-	public final int ESTADO_ERRO =7; 
+	public static final int ESTADO_INICIAL = 2;
+	public static final int ESTADO_ERRO =14;
+	public static final int ESTADO_GERATOKEM_ID = 0;
+	public static final int ESTADO_GERATOKEM_OPERADOR = 8;
+	public static final int ESTADO_GERATOKEM_OPERADOR_RET = 13;//Esse tem um retorno de caracter
+	public static final int ESTADO_GERATOKEM_NUMERO = 12;
+	public static final int ESTADO_GERATOKEM_STRING = 11;
+	
 	private final int ASCII_TAMANHO = 256;
-    private final int ESTADOS_QUANT = 8;
+    private final int ESTADOS_QUANT = 13+1;//Os estados vão de 0 a N entao tem N mais 1 estados :-)
     private int[] estadosFinais;
     
     
@@ -23,13 +29,11 @@ public class TabelaDeTransicao {
 		for (int i=0;i<ESTADOS_QUANT;i++){
 			estadosFinais[i] = ESTADO_ERRO;
 		}
-		//estadosFinais[0] = 0;
-		//estadosFinais[1] = 8;
-		//estadosFinais[2] = 10;
-		//estadosFinais[3] = 11;
-		estadosFinais[0] = 3;
-		estadosFinais[1] = 6;
-		
+		estadosFinais[0] = ESTADO_GERATOKEM_ID;
+		estadosFinais[1] = ESTADO_GERATOKEM_OPERADOR;
+		estadosFinais[2] = ESTADO_GERATOKEM_OPERADOR_RET;
+		estadosFinais[3] = ESTADO_GERATOKEM_NUMERO;
+		estadosFinais[4] = ESTADO_GERATOKEM_STRING;
 	}
 
 	

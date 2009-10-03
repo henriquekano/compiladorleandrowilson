@@ -14,12 +14,7 @@ import java.io.IOException;
  * @author Leandro Cordeiro David(leandrodvd@gmail.com) e Wilson Faria(wilsonfaria86@gmail.com)
  */
 public class Lexico {
-	private final int ESTADO_INICIAL;
-	private final int ESTADO_GERATOKEM_ID = 3;
-	private final int ESTADO_GERATOKEM_ATRIB = 1;
-	private final int ESTADO_GERATOKEM_OPERADOR = 2;
-	private final int ESTADO_GERATOKEM_NUMERO = 6;
-	private final int ESTADO_ERRO=7;
+	
     private final int TAMANHOBUFFER = 4096;
     //private final int MAX_TAMANHO_TOKEN = 1024;
 	private int estadoAtual ;
@@ -42,8 +37,7 @@ public class Lexico {
 		tabelaDeTransicao= new TabelaDeTransicao();
 		bufferDeLeitura1 = new char[TAMANHOBUFFER];
 		bufferDeLeitura2 = new char[TAMANHOBUFFER];
-		ESTADO_INICIAL=tabelaDeTransicao.ESTADO_INICIAL;
-		estadoAtual = ESTADO_INICIAL;
+		estadoAtual = TabelaDeTransicao.ESTADO_INICIAL;
 		posicaoDoBuffer = -1;
 		//tokenBuffer = new char[MAX_TAMANHO_TOKEN];
 		tokenBuffer =new StringBuffer();
@@ -132,32 +126,37 @@ public class Lexico {
 	private void executaAcaoDeEstadoFinal(int estado) {
 		switch(estado)
 		{	
-			case ESTADO_GERATOKEM_ID:
+			case TabelaDeTransicao.ESTADO_GERATOKEM_ID:
 				retornaCaracter();
 				adicionaTokenNaLista(new Token(tokenBuffer.toString(), TipoToken.ID));
 				limpaTokenBuffer();
-				
-				estadoAtual=ESTADO_INICIAL;
+				estadoAtual=TabelaDeTransicao.ESTADO_INICIAL;
 				break;
-			case ESTADO_GERATOKEM_OPERADOR:
-				retornaCaracter();
-				estadoAtual=ESTADO_INICIAL;
+			case TabelaDeTransicao.ESTADO_GERATOKEM_OPERADOR:
+				adicionaTokenNaLista(new Token(tokenBuffer.toString()));
+				estadoAtual=TabelaDeTransicao.ESTADO_INICIAL;
 				limpaTokenBuffer();
 				break;
-			case ESTADO_GERATOKEM_NUMERO:
+			case TabelaDeTransicao.ESTADO_GERATOKEM_OPERADOR_RET:
+				retornaCaracter();
+				adicionaTokenNaLista(new Token(tokenBuffer.toString()));
+				estadoAtual=TabelaDeTransicao.ESTADO_INICIAL;
+				limpaTokenBuffer();
+				break;
+			case TabelaDeTransicao.ESTADO_GERATOKEM_NUMERO:
 				retornaCaracter();
 				adicionaTokenNaLista(new Token(tokenBuffer.toString(), TipoToken.NUMERO));
-				estadoAtual=ESTADO_INICIAL;
+				estadoAtual=TabelaDeTransicao.ESTADO_INICIAL;
 				limpaTokenBuffer();
 				break;
-			case ESTADO_GERATOKEM_ATRIB:
-				//codigo para gerar o token
-				estadoAtual=ESTADO_INICIAL;
+			case TabelaDeTransicao.ESTADO_GERATOKEM_STRING:
+				adicionaTokenNaLista(new Token(tokenBuffer.toString(), TipoToken.STRING));
+				estadoAtual=TabelaDeTransicao.ESTADO_INICIAL;
 				limpaTokenBuffer();
 				break;
-			case ESTADO_ERRO:
+			case TabelaDeTransicao.ESTADO_ERRO:
 				fechaTokenQuebrado();
-				estadoAtual=ESTADO_INICIAL;
+				estadoAtual=TabelaDeTransicao.ESTADO_INICIAL;
 				limpaTokenBuffer();
 				break;
 				//demais cases de estado final
