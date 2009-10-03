@@ -166,7 +166,19 @@ public class Lexico {
 
 	
 	private void retornaCaracter() {
-		posicaoDoBuffer--;
+		
+		if (posicaoDoBuffer==0){
+			posicaoDoBuffer=TAMANHOBUFFER;
+			if (bufferEmUso ==1){
+				bufferEmUso=2;
+			}
+			else{
+				bufferEmUso=1;
+			}
+		}
+		else{
+			posicaoDoBuffer--;
+		}
 		tokenBuffer.deleteCharAt(tokenBuffer.length()-1);
 	}
 
