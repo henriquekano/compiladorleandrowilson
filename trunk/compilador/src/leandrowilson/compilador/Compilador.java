@@ -3,9 +3,6 @@ package leandrowilson.compilador;
 import java.io.File;
 import java.util.Scanner;
 
-import leandrowilson.compilador.lexico.Lexico;
-import leandrowilson.compilador.lexico.List;
-import leandrowilson.compilador.lexico.Token;
 
 public class Compilador {
 	static Scanner scanner = new Scanner (System.in);
