@@ -96,7 +96,7 @@ public class TabelaDeTransicao {
 		for (int i = 48;i<=57;i++){
 			tabelaDeTransicao[1][i]=1;
 			tabelaDeTransicao[2][i]=3;
-			tabelaDeTransicao[3][i]=ESTADO_ERRO;
+			tabelaDeTransicao[3][i]=3;
 			tabelaDeTransicao[4][i]=5;
 			tabelaDeTransicao[5][i]=5;
 		}
