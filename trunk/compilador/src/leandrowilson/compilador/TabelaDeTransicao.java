@@ -39,7 +39,7 @@ public class TabelaDeTransicao {
 	
 	public int proximoEstado(int estadoAtual,int caracterLido){
 		//Retorna o devido elemento da tabela de transição
-		System.out.println("Proximo estado:estadoAtual:"+String.valueOf(estadoAtual)+" caracterLido:"+String.valueOf(caracterLido));
+		//System.out.println("Proximo estado:estadoAtual:"+String.valueOf(estadoAtual)+" caracterLido:"+String.valueOf(caracterLido));
 		return tabelaDeTransicao[estadoAtual][caracterLido];
 	}
 	
@@ -104,10 +104,19 @@ public class TabelaDeTransicao {
 		//preenche o resto
 		tabelaDeTransicao[2][33]=7;
 		tabelaDeTransicao[2][34]=10;
+		tabelaDeTransicao[2][38]=10;
+		tabelaDeTransicao[2][40]=8;
+		tabelaDeTransicao[2][41]=8;
 		tabelaDeTransicao[2][42]=8;
 		tabelaDeTransicao[2][43]=8;
 		tabelaDeTransicao[2][45]=8;
 		tabelaDeTransicao[2][47]=8;
+		tabelaDeTransicao[2][59]=8;
+		tabelaDeTransicao[2][91]=8;
+		tabelaDeTransicao[2][93]=8;
+		tabelaDeTransicao[2][123]=8;
+		tabelaDeTransicao[2][124]=8;
+		tabelaDeTransicao[2][125]=8;
 		tabelaDeTransicao[2][60]=9;
 		tabelaDeTransicao[2][61]=6;
 		tabelaDeTransicao[2][62]=9;
@@ -116,6 +125,10 @@ public class TabelaDeTransicao {
 		tabelaDeTransicao[7][61]=8;
 		tabelaDeTransicao[9][61]=8;
 		tabelaDeTransicao[10][34]=11;
+		
+		//(
+		tabelaDeTransicao[10][34]=11;
+		//)
 	}
 
 	public boolean estadoFinal(int estado) {
@@ -125,8 +138,8 @@ public class TabelaDeTransicao {
 		{
 			achouEstadoFinal=achouEstadoFinal || (estadosFinais[i]==estado);
 		}
-		if (achouEstadoFinal) {System.out.println("Estado "+estado+" é Estado final ");}
-		else {System.out.println("Estado "+estado+" NAO é Estado final ");}
+		//if (achouEstadoFinal) {System.out.println("Estado "+estado+" é Estado final ");}
+		//else {System.out.println("Estado "+estado+" NAO é Estado final ");}
 		
 		return achouEstadoFinal;
 	}

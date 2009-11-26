@@ -32,7 +32,7 @@ public class Lexico {
 	FileInputStream fis =null ; //FileInputStream
 	BufferedInputStream bis =null; //BufferedInputStream
 	DataInputStream dis =null; //DataInputStream
-	private int linha = 0; //contagem de linhas do arquivo
+	private int linha = 1; //contagem de linhas do arquivo
 	public String[] palavrasReservadas={"void","int","float","char","string","boolean","byte","true","false","main","while","if","else","switch","case","break","and","or","not"};
 	
 	public Lexico() {
@@ -60,11 +60,13 @@ public class Lexico {
 	 */
 	private void analisaArquivo() {
 		char ch = leProximoCaracter();
-		System.out.println("Caracter lido:'"+ch+"'-"+(int)ch);
+		System.out.println("Caracter lido:'"+ch+"'-"+(long)ch);
 		//tokenBufferPointer++;
 		//tokenBuffer[tokenBufferPointer]= ch;
 		
 		while (!fimDoArquivo(ch)){
+			System.out.print(ch);
+			//System.out.print(ch+"'-"+(int)ch);
 			if (descartarCaracter(ch)){
 				ch = leProximoCaracter();
 			}
@@ -76,7 +78,7 @@ public class Lexico {
 				}
 				
 				ch = leProximoCaracter();
-				System.out.println("Caracter lido:'"+ch+"'-"+(int)ch);
+				
 				
 			}
 		}
@@ -93,10 +95,16 @@ public class Lexico {
 		}
 		//Descarta caracter de line feed
 		if((int)ch == 10){
+			linha++;
+			System.out.println("linha:"+linha);
 			return true;
 		}
 		//Descarta caracter de carriage return
 		if((int)ch == 13){
+			return true;
+		}
+		//Descarta caracter de carriage TAB
+		if((int)ch == 9){
 			return true;
 		}
 		return false;
@@ -112,6 +120,7 @@ public class Lexico {
 	private void adicionaTokenNaLista(Token token) {
 		//System.out.println("Adicionando Token na Lista-Tipo:"+token.tipo+" Valor:"+String.valueOf(token.valor));
 		this.listaDeTokens.add(token);
+		System.out.println("<"+token.tipo+","+token.valor+">");
 	}
 
 	/**
@@ -183,8 +192,8 @@ public class Lexico {
 
 	private void retornaCaracter() {
 		
-		if (posicaoDoBuffer==0){
-			posicaoDoBuffer=TAMANHOBUFFER;
+		if (posicaoDoBuffer==0 || posicaoDoBuffer==-1){
+			posicaoDoBuffer=TAMANHOBUFFER-2;
 			if (bufferEmUso ==1){
 				bufferEmUso=2;
 			}
@@ -260,8 +269,9 @@ public class Lexico {
 	}
 
 	private char leProximoCaracterDoBuffer() {
-		posicaoDoBuffer++;
+		
 		if (bufferEmUso ==1){
+			posicaoDoBuffer++;
 			char caracterLido = bufferDeLeitura1[posicaoDoBuffer]; 
 			if (chegouNoFimDoBuffer()){
 				carregaBuffer2();
@@ -269,6 +279,7 @@ public class Lexico {
 			return caracterLido;
 		}
 		else {
+			posicaoDoBuffer++;
 			char caracterLido = bufferDeLeitura2[posicaoDoBuffer];
 			if (chegouNoFimDoBuffer()){
 				carregaBuffer1();
