@@ -15,10 +15,10 @@ public class Token {
 //		tipo = new TipoToken(tipoToken);
 //	}
 	
-//	public Token(String tokenBuffer) {
-//		tipo = tokenBuffer;
-//		valor = "";
-//	}
+	public Token(String token) {
+		tipo = TipoToken.QUEBRADO;
+		valor = token;
+	}
 	
 	public Token(){
 
