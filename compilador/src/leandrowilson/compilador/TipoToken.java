@@ -73,6 +73,11 @@ public enum TipoToken {
 		return TipoToken.QUEBRADO;
 	}
 
+	public static String operador(String string2) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	
 	
 }

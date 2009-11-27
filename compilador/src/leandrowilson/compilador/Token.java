@@ -5,8 +5,8 @@ public class Token {
 	public TipoToken tipo;
 	public String valor;
 	
-	public Token(String tokenBuffer, TipoToken tipoToken) {
-		valor = tokenBuffer;
+	public Token(String strValor, TipoToken tipoToken) {
+		valor = strValor;
 		tipo = tipoToken;
 	}
 	
@@ -22,5 +22,10 @@ public class Token {
 	
 	public Token(){
 
+	}
+
+	public Token(TipoToken tipoToken) {
+		tipo = tipoToken;
+		valor ="";
 	}
 }
