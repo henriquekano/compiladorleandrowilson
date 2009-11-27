@@ -33,7 +33,10 @@ public class Lexico {
 	BufferedInputStream bis =null; //BufferedInputStream
 	DataInputStream dis =null; //DataInputStream
 	private int linha = 1; //contagem de linhas do arquivo
-	public String[] palavrasReservadas={"void","int","float","char","string","boolean","byte","true","false","main","while","if","else","switch","case","break","and","or","not"};
+	public String[] palavrasReservadas=
+		{"true","false","int","float","string","boolean",
+			"procedure","callproc","function","callfunc",
+			"if","else","while","input","output","return"};
 	
 	public Lexico() {
 		tabelaDeTransicao= new TabelaDeTransicao();
@@ -131,7 +134,7 @@ public class Lexico {
 	 */
 	private TipoToken obterTipoParaEstado(int estado) {
 		// TODO Auto-generated method stub
-		return TipoToken.DESCONHECIDO;
+		return TipoToken.QUEBRADO;
 	}
 
 	private void executaAcaoDeEstadoFinal(int estado) {
