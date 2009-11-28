@@ -27,6 +27,7 @@ public class Compilador {
 	    System.out.println("Lendo arquivo:"+nomeDoArquivo);
 //	    testalexico(nomeDoArquivo);
 		sintatico = new Sintatico(lex.obterListaDeTokens(nomeDoArquivo));
+		sintatico.executa();
 	}
 	private static void testalexico(String nomeDoArquivo) {
 		List listaDeTokens = lex.obterListaDeTokens(nomeDoArquivo);

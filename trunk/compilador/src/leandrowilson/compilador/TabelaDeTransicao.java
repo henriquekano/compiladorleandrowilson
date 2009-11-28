@@ -17,14 +17,14 @@ public class TabelaDeTransicao {
     
     
 	public TabelaDeTransicao() {
-		System.out.println("Construtor da tabela de transiçao");
+		Util.Log("Construtor da tabela de transiçao");
 		tabelaDeTransicao = new int[ESTADOS_QUANT][ASCII_TAMANHO];	
 		iniciaTabelaDeTransicao();
 		iniciaEstadosFinais();
 	}
 
 	private void iniciaEstadosFinais() {
-		System.out.println("iniciaEstadosFinais");
+		Util.Log("iniciaEstadosFinais");
 		estadosFinais = new int[ESTADOS_QUANT];
 		for (int i=0;i<ESTADOS_QUANT;i++){
 			estadosFinais[i] = ESTADO_ERRO;
@@ -39,12 +39,12 @@ public class TabelaDeTransicao {
 	
 	public int proximoEstado(int estadoAtual,int caracterLido){
 		//Retorna o devido elemento da tabela de transição
-		//System.out.println("Proximo estado:estadoAtual:"+String.valueOf(estadoAtual)+" caracterLido:"+String.valueOf(caracterLido));
+		//Util.Log("Proximo estado:estadoAtual:"+String.valueOf(estadoAtual)+" caracterLido:"+String.valueOf(caracterLido));
 		return tabelaDeTransicao[estadoAtual][caracterLido];
 	}
 	
 	private void iniciaTabelaDeTransicao() {
-		System.out.println("iniciaTabelaDeTransicao");
+		Util.Log("iniciaTabelaDeTransicao");
 		//preenche toda a Tabela de Tranição com Estado de Erro
 		for (int i = 0;i<ESTADOS_QUANT;i++){
 			for (int j = 0;j<ASCII_TAMANHO;j++){
@@ -138,8 +138,8 @@ public class TabelaDeTransicao {
 		{
 			achouEstadoFinal=achouEstadoFinal || (estadosFinais[i]==estado);
 		}
-		//if (achouEstadoFinal) {System.out.println("Estado "+estado+" é Estado final ");}
-		//else {System.out.println("Estado "+estado+" NAO é Estado final ");}
+		//if (achouEstadoFinal) {Util.Log("Estado "+estado+" é Estado final ");}
+		//else {Util.Log("Estado "+estado+" NAO é Estado final ");}
 		
 		return achouEstadoFinal;
 	}

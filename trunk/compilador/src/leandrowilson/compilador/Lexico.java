@@ -15,7 +15,7 @@ import java.io.IOException;
  * @author Leandro Cordeiro David(leandrodvd@gmail.com) e Wilson Faria(wilsonfaria86@gmail.com)
  */
 public class Lexico {
-	
+	public List erros = new List();
     private final int TAMANHOBUFFER = 4096;
     //private final int MAX_TAMANHO_TOKEN = 1024;
 	private int estadoAtual ;
@@ -50,6 +50,10 @@ public class Lexico {
 		
 	}
 	
+	public List getErros(){
+		return erros;
+	}
+	
 	public List obterListaDeTokens(String nomeDoArquivo){
 		leArquivo(nomeDoArquivo);
 		analisaArquivo();
@@ -63,12 +67,12 @@ public class Lexico {
 	 */
 	private void analisaArquivo() {
 		char ch = leProximoCaracter();
-		System.out.println("Caracter lido:'"+ch+"'-"+(long)ch);
+		Util.Log("Caracter lido:'"+ch+"'-"+(long)ch);
 		//tokenBufferPointer++;
 		//tokenBuffer[tokenBufferPointer]= ch;
 		
 		while (!fimDoArquivo(ch)){
-			System.out.print(ch);
+			Util.Log(String.valueOf(ch));
 			//System.out.print(ch+"'-"+(int)ch);
 			if (descartarCaracter(ch)){
 				ch = leProximoCaracter();
@@ -99,7 +103,7 @@ public class Lexico {
 		//Descarta caracter de line feed
 		if((int)ch == 10){
 			linha++;
-			System.out.println("linha:"+linha);
+			Util.Log("linha:"+linha);
 			return true;
 		}
 		//Descarta caracter de carriage return
@@ -114,16 +118,16 @@ public class Lexico {
 	}
 
 	private void fechaTokenQuebrado() {
-		Token token = new Token(tokenBuffer.toString(),obterTipoParaEstado(estadoAtual));
+		Token token = new Token(tokenBuffer.toString(),obterTipoParaEstado(estadoAtual),linha);
 		adicionaTokenNaLista(token);
 		tokenBuffer = new StringBuffer();
 		//tokenBuffer = new char[MAX_TAMANHO_TOKEN];
 	}
 
 	private void adicionaTokenNaLista(Token token) {
-		//System.out.println("Adicionando Token na Lista-Tipo:"+token.tipo+" Valor:"+String.valueOf(token.valor));
+		//Util.Log("Adicionando Token na Lista-Tipo:"+token.tipo+" Valor:"+String.valueOf(token.valor));
 		this.listaDeTokens.add(token);
-		System.out.println("<"+token.tipo+","+token.valor+">");
+		Util.Log("<"+token.tipo+","+token.valor+">");
 	}
 
 	/**
@@ -143,33 +147,33 @@ public class Lexico {
 			case TabelaDeTransicao.ESTADO_GERATOKEM_ID:
 				retornaCaracter();
 				if (palavrareservada(tokenBuffer.toString())){
-					adicionaTokenNaLista(new Token(TipoToken.tipoToken(tokenBuffer.toString())));
+					adicionaTokenNaLista(new Token(TipoToken.tipoToken(tokenBuffer.toString()),linha));
 				}
 				else{
-					adicionaTokenNaLista(new Token(tokenBuffer.toString(), TipoToken.ID));
+					adicionaTokenNaLista(new Token(tokenBuffer.toString(), TipoToken.ID,linha));
 				}
 				limpaTokenBuffer();
 				estadoAtual=TabelaDeTransicao.ESTADO_INICIAL;
 				break;
 			case TabelaDeTransicao.ESTADO_GERATOKEM_OPERADOR:
-				adicionaTokenNaLista(new Token(TipoToken.tipoToken(tokenBuffer.toString())));
+				adicionaTokenNaLista(new Token(TipoToken.tipoToken(tokenBuffer.toString()),linha));
 				estadoAtual=TabelaDeTransicao.ESTADO_INICIAL;
 				limpaTokenBuffer();
 				break;
 			case TabelaDeTransicao.ESTADO_GERATOKEM_OPERADOR_RET:
 				retornaCaracter();
-				adicionaTokenNaLista(new Token(TipoToken.tipoToken(tokenBuffer.toString())));
+				adicionaTokenNaLista(new Token(TipoToken.tipoToken(tokenBuffer.toString()),linha));
 				estadoAtual=TabelaDeTransicao.ESTADO_INICIAL;
 				limpaTokenBuffer();
 				break;
 			case TabelaDeTransicao.ESTADO_GERATOKEM_NUMERO:
 				retornaCaracter();
-				adicionaTokenNaLista(new Token(tokenBuffer.toString(), TipoToken.NUMERO));
+				adicionaTokenNaLista(new Token(tokenBuffer.toString(), TipoToken.NUMERO,linha));
 				estadoAtual=TabelaDeTransicao.ESTADO_INICIAL;
 				limpaTokenBuffer();
 				break;
 			case TabelaDeTransicao.ESTADO_GERATOKEM_STRING:
-				adicionaTokenNaLista(new Token(tokenBuffer.toString(), TipoToken.STRING));
+				adicionaTokenNaLista(new Token(tokenBuffer.toString(), TipoToken.STRING,linha));
 				estadoAtual=TabelaDeTransicao.ESTADO_INICIAL;
 				limpaTokenBuffer();
 				break;
@@ -221,14 +225,14 @@ public class Lexico {
 	 */
 	private void leArquivo(String nomeDoArquivo) {
 		    arquivoLido = new File(nomeDoArquivo);
-		    System.out.println("Lendo arquivo:"+nomeDoArquivo);
+		    Util.Log("Lendo arquivo:"+nomeDoArquivo);
 		    fis = null;
 		    bis = null;
 		    dis = null;
 
 		    try {
 			    if (!arquivoLido.canRead()){
-			    	System.out.println("Arquivo não disponível para leitura");
+			    	Util.Log("Arquivo não disponível para leitura");
 			    }
 			    else
 			    {
@@ -242,7 +246,7 @@ public class Lexico {
 			    	  carregaBuffer1();
 			      }
 			      else{
-			    	  System.out.println("ERRO- Arquivo em branco");
+			    	  erros.add(new Erro(TipoErro.LEXICO_ARQUIVO_EM_BRACO,(Token) listaDeTokens.get(listaDeTokens.tamanho-1)));
 			      }
 	
 			      // dispose all the resources after using them.
@@ -251,11 +255,11 @@ public class Lexico {
 			      //dis.close();
 			    }
 		    } catch (FileNotFoundException e) {
-		    	System.out.println("Arquivo não encontrado");
+		    	Util.Log("Arquivo não encontrado");
 		    	
 		      e.printStackTrace();
 		    } catch (IOException e) {
-		    	System.out.println("Erro de E/S");
+		    	erros.add(new Erro(TipoErro.LEXICO_ERRO_DE_ES,(Token)listaDeTokens.get(listaDeTokens.tamanho-1)));
 		      e.printStackTrace();
 		    }		
 	}
@@ -317,7 +321,7 @@ public class Lexico {
 				
 			}
 		} catch (IOException e) {
-			System.out.println("Erro na leitura de caracter do arquivo");
+			erros.add(new Erro(TipoErro.LEXICO_ERRO_DE_LEITURA_DE_ARQUIVO,(Token)listaDeTokens.get(listaDeTokens.tamanho-1)));
 			e.printStackTrace();
 		}
 		
@@ -339,7 +343,7 @@ public class Lexico {
 				
 			}
 		} catch (IOException e) {
-			System.out.println("Erro na leitura de caracter do arquivo");
+			erros.add(new Erro(TipoErro.LEXICO_ERRO_DE_LEITURA_DE_ARQUIVO,(Token)listaDeTokens.get(listaDeTokens.tamanho-1)));
 			e.printStackTrace();
 		}
 		

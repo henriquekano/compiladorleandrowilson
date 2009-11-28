@@ -26,4 +26,10 @@ public class MaquinaDeclaracao extends Maquina {
 		
 	}
 
+	@Override
+	public Boolean retornaMaquina(Integer estadoAtual, Token tokemAtual) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
