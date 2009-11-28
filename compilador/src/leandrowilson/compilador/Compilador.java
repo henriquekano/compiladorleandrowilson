@@ -6,22 +6,32 @@ import java.util.Scanner;
 
 public class Compilador {
 	static Scanner scanner = new Scanner (System.in);
+	public static Lexico lex = new Lexico();
+	public static Sintatico sintatico;
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		Lexico lex = new Lexico();
+		
 		String nomeDoArquivo;
 		
 		System.out.println("ESTE É O COMPILADOR DESENVOLVIDO POR LEANDRO CORDEIRO DAVID E WILSON FARIA\n\n");
 		System.out.println("Digite o nome do arquivo que deseja compilar:");
+		
+		
 		//nomeDoArquivo = scanner.next();
-		nomeDoArquivo = "c:\\teste.txt";
+//		nomeDoArquivo = "c:\\teste.txt";
+		nomeDoArquivo = "c:\\teste_reservadas.txt";
 		System.out.println("Lendo arquivo:"+nomeDoArquivo);
 		nomeDoArquivo = nomeDoArquivo.replace("\\", "\\\\");
 	    System.out.println("Lendo arquivo:"+nomeDoArquivo);
+//	    testalexico(nomeDoArquivo);
+		sintatico = new Sintatico(lex.obterListaDeTokens(nomeDoArquivo));
+	}
+	private static void testalexico(String nomeDoArquivo) {
 		List listaDeTokens = lex.obterListaDeTokens(nomeDoArquivo);
 		imprimeListaDeTokens(listaDeTokens);
+		
 	}
 	private static void imprimeListaDeTokens(List listaDeTokens) {
 		Token token;

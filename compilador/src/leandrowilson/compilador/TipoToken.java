@@ -4,10 +4,7 @@ public enum TipoToken {
 	//TODO Completar os tipos
 	ID(0),
 	NUMERO(1),
-	OPERADOR(2),
 	STRING(3),
-	PLUS(4),
-	MINUS(5),
 	PR_TRUE(6),
 	PR_FALSE(7),
 	PR_INT(8),
@@ -24,60 +21,127 @@ public enum TipoToken {
 	PR_INPUT(19),
 	PR_OUTPUT(20),
 	PR_RETURN(21),
-	QUEBRADO(22);
+	PARENTESE_ABRE(22), 
+	PARENTESE_FECHA(23), 
+	NOT(24), 
+	COLCHETE_ABRE(25), 
+	COLCHETE_FECHA(26), 
+	CHAVE_ABRE(27), 
+	CHAVE_FECHA(28), 
+	OR(29), 
+	AND(30), 
+	DIFFERENT(31), 
+	EQUAL_COMPARISON(32), 
+	DIVIDE(33), 
+	MULTIPLY(34), 
+	PONTOEVIRGULA(35), 
+	VIRGULA(36), 
+	ATRIB(37), 
+	MAIOR_IGUAL(38), 
+	MENOR_IGUAL(39), 
+	MAIOR(40), 
+	MENOR(41),
+	MINUS(42),
+	PLUS(43),
+	QUEBRADO(44),
+	PR_MAIN(45),
+	PR_STRUCT(46);
 	
 	private final Integer valor;
 	public Integer valor(){
 		return this.valor;
+	}
+	public static Integer tamanho(){
+		return 47;
 	}
 	
 	TipoToken(Integer valor){
 		this.valor = valor;
 	}
 
-	public static TipoToken palavraReservada(String palavraReservada) {
-		if (palavraReservada.equals("true"))
+	public static TipoToken tipoToken(String token) {
+		if (token.equals("main"))
+			return TipoToken.PR_MAIN;
+		if (token.equals("struct"))
+			return TipoToken.PR_STRUCT;
+		if (token.equals("true"))
 			return TipoToken.PR_TRUE;
-		if (palavraReservada.equals("false"))
+		if (token.equals("false"))
 			return TipoToken.PR_FALSE;
-		if (palavraReservada.equals("int"))
+		if (token.equals("int"))
 			return TipoToken.PR_INT;
-		if (palavraReservada.equals("float"))
+		if (token.equals("float"))
 			return TipoToken.PR_FLOAT;
-		if (palavraReservada.equals("string"))
+		if (token.equals("string"))
 			return TipoToken.PR_STRING;
-		if (palavraReservada.equals("boolean"))
+		if (token.equals("boolean"))
 			return TipoToken.PR_BOOLEAN;
-		if (palavraReservada.equals("procedure"))
+		if (token.equals("procedure"))
 			return TipoToken.PR_PROCEDURE;
-		if (palavraReservada.equals("callproc"))
+		if (token.equals("callproc"))
 			return TipoToken.PR_CALLPROC;
-		if (palavraReservada.equals("procedure"))
+		if (token.equals("procedure"))
 			return TipoToken.PR_PROCEDURE;
-		if (palavraReservada.equals("function"))
+		if (token.equals("function"))
 			return TipoToken.PR_FUNCTION;
-		if (palavraReservada.equals("callfunc"))
+		if (token.equals("callfunc"))
 			return TipoToken.PR_CALLFUNC;
-		if (palavraReservada.equals("if"))
+		if (token.equals("if"))
 			return TipoToken.PR_IF;
-		if (palavraReservada.equals("else"))
+		if (token.equals("else"))
 			return TipoToken.PR_ELSE;
-		if (palavraReservada.equals("while"))
+		if (token.equals("while"))
 			return TipoToken.PR_WHILE;
-		if (palavraReservada.equals("input"))
+		if (token.equals("input"))
 			return TipoToken.PR_INPUT;
-		if (palavraReservada.equals("output"))
+		if (token.equals("output"))
 			return TipoToken.PR_OUTPUT;
-		if (palavraReservada.equals("return"))
+		if (token.equals("return"))
 			return TipoToken.PR_RETURN;
+		if (token.equals("("))
+			return TipoToken.PARENTESE_ABRE ;
+		if (token.equals(")"))
+				return TipoToken.PARENTESE_FECHA ;
+		if (token.equals("!"))
+				return TipoToken.NOT ;
+		if (token.equals("["))
+				return TipoToken.COLCHETE_ABRE ;
+		if (token.equals("]"))
+				return TipoToken.COLCHETE_FECHA ;
+		if (token.equals("{"))
+				return TipoToken.CHAVE_ABRE ;
+		if (token.equals("}"))
+				return TipoToken.CHAVE_FECHA ;
+		if (token.equals("|"))
+				return TipoToken.OR ;
+		if (token.equals("&"))
+				return TipoToken.AND ;
+		if (token.equals("!="))
+				return TipoToken.DIFFERENT ;
+		if (token.equals("=="))
+				return TipoToken.EQUAL_COMPARISON ;
+		if (token.equals("-"))
+				return TipoToken.MINUS ;
+		if (token.equals("/"))
+				return TipoToken.DIVIDE ;
+		if (token.equals("*"))
+				return TipoToken.MULTIPLY ;
+		if (token.equals("+"))
+				return TipoToken.PLUS ;
+		if (token.equals("<"))
+				return TipoToken.MENOR ;
+		if (token.equals(">"))
+				return TipoToken.MAIOR ;
+		if (token.equals("<="))
+				return TipoToken.MENOR_IGUAL ;
+		if (token.equals(">="))
+				return TipoToken.MAIOR_IGUAL ;
+		if (token.equals("="))
+				return TipoToken.ATRIB ;
+		if (token.equals(","))
+				return TipoToken.VIRGULA ;
+		if (token.equals(";"))
+				return TipoToken.PONTOEVIRGULA ;
 		return TipoToken.QUEBRADO;
 	}
-
-	public static String operador(String string2) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	
-	
 }

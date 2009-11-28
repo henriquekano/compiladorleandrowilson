@@ -143,7 +143,7 @@ public class Lexico {
 			case TabelaDeTransicao.ESTADO_GERATOKEM_ID:
 				retornaCaracter();
 				if (palavrareservada(tokenBuffer.toString())){
-					adicionaTokenNaLista(new Token(TipoToken.palavraReservada(tokenBuffer.toString())));
+					adicionaTokenNaLista(new Token(TipoToken.tipoToken(tokenBuffer.toString())));
 				}
 				else{
 					adicionaTokenNaLista(new Token(tokenBuffer.toString(), TipoToken.ID));
@@ -152,13 +152,13 @@ public class Lexico {
 				estadoAtual=TabelaDeTransicao.ESTADO_INICIAL;
 				break;
 			case TabelaDeTransicao.ESTADO_GERATOKEM_OPERADOR:
-				adicionaTokenNaLista(new Token(TipoToken.operador(tokenBuffer.toString())));
+				adicionaTokenNaLista(new Token(TipoToken.tipoToken(tokenBuffer.toString())));
 				estadoAtual=TabelaDeTransicao.ESTADO_INICIAL;
 				limpaTokenBuffer();
 				break;
 			case TabelaDeTransicao.ESTADO_GERATOKEM_OPERADOR_RET:
 				retornaCaracter();
-				adicionaTokenNaLista(new Token(tokenBuffer.toString()));
+				adicionaTokenNaLista(new Token(TipoToken.tipoToken(tokenBuffer.toString())));
 				estadoAtual=TabelaDeTransicao.ESTADO_INICIAL;
 				limpaTokenBuffer();
 				break;
