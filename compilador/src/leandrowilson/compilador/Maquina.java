@@ -3,7 +3,11 @@ package leandrowilson.compilador;
 public abstract class Maquina {
 	public  Integer estadoInicial;
 	public Integer[] estadosFinais;
-	Integer[][] tabelaTransicao ;
+	Integer[][] tabelaTransicao ; //Tabela de Transicao de Estados
+	TipoMaquina[][] tabelaTransicaoMaquinas;
+	Boolean[][] tabelaNovaMaquina;
+	
+	
 	public Integer  QUANTIDADE_DE_TIPOTOKENS = TipoToken.tamanho();
 	public final Integer ESTADO_ERRO_SINTATICO = 999999;
 	
@@ -17,9 +21,14 @@ public abstract class Maquina {
 		estadoInicial = _estadoInicial;
 		estadosFinais = _estadosFinais;
 		tabelaTransicao = new Integer[quantidadeDeEstados][QUANTIDADE_DE_TIPOTOKENS];
+		tabelaTransicaoMaquinas = new TipoMaquina[quantidadeDeEstados][QUANTIDADE_DE_TIPOTOKENS];
+		tabelaNovaMaquina = new Boolean[quantidadeDeEstados][QUANTIDADE_DE_TIPOTOKENS];
+		
 		for (int k =0;k<quantidadeDeEstados;k++){
 			for (int j=0;j<QUANTIDADE_DE_TIPOTOKENS;j++){
 				tabelaTransicao[k][j] = ESTADO_ERRO_SINTATICO;
+				tabelaTransicaoMaquinas[k][j] = TipoMaquina.PROGRAMA;
+				tabelaNovaMaquina[k][j] = false;
 			}
 		}
 	}
@@ -38,13 +47,15 @@ public abstract class Maquina {
 		return estado==ESTADO_ERRO_SINTATICO;
 		
 	}
-	public void carregarEntradaNaTabelaDeTransicao(Integer estadoAtual, TipoToken token,Integer proximoEstado) {
+	public void carregarEntradaNaTabelaDeTransicao(Integer estadoAtual, TipoToken token,Integer proximoEstado, TipoMaquina proximaMaquina, boolean chamaNovaMaquina) {
 		tabelaTransicao[estadoAtual][token.valor()]= proximoEstado;
+		tabelaTransicaoMaquinas[estadoAtual][token.valor()]= proximaMaquina;
+		tabelaNovaMaquina[estadoAtual][token.valor()]=chamaNovaMaquina;
 	}
 	public void carregarEntradasDeSubmaquina(Integer estadoAtual, TipoMaquina maquina,Integer proximoEstado) {
 		TipoToken[] first = maquina.first();
 		for (int i = 0;i<first.length;i++){
-			carregarEntradaNaTabelaDeTransicao(estadoAtual, first[i], proximoEstado);
+			carregarEntradaNaTabelaDeTransicao(estadoAtual, first[i], proximoEstado,maquina,true);
 		}
 		
 	}

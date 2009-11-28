@@ -11,11 +11,11 @@ public class MaquinaPrograma extends Maquina {
 
 	@Override
 	public void carregarTabelaDeTransicao() {
-		carregarEntradaNaTabelaDeTransicao(0,TipoToken.PR_MAIN,1);
-		carregarEntradaNaTabelaDeTransicao(1,TipoToken.CHAVE_ABRE,2);
+		carregarEntradaNaTabelaDeTransicao(0,TipoToken.PR_MAIN,1,TipoMaquina.PROGRAMA,false);
+		carregarEntradaNaTabelaDeTransicao(1,TipoToken.CHAVE_ABRE,2,TipoMaquina.PROGRAMA,false);
 		carregarEntradasDeSubmaquina(2,TipoMaquina.DECLARACAO,2);
 		carregarEntradasDeSubmaquina(2,TipoMaquina.COMANDO,2);
-		carregarEntradaNaTabelaDeTransicao(2,TipoToken.CHAVE_FECHA,3);
+		carregarEntradaNaTabelaDeTransicao(2,TipoToken.CHAVE_FECHA,3,TipoMaquina.PROGRAMA,false);
 		carregarEntradasDeSubmaquina(2,TipoMaquina.FUNCAO,3);
 		carregarEntradasDeSubmaquina(2,TipoMaquina.PROCEDIMENTO,3);
 	}
@@ -27,25 +27,25 @@ public class MaquinaPrograma extends Maquina {
 	@Override
 	public Boolean novaMaquina(Integer estadoAtual, Token tokemAtual) {
 		// TODO Auto-generated method stub
-		return null;
+		return false;
 	}
 
 	@Override
 	public TipoMaquina proximaMaquina(Integer estadoAtual, Token tokemAtual) {
 		// TODO Auto-generated method stub
-		return null;
+		return TipoMaquina.PROGRAMA;
 	}
 
 	@Override
 	public Integer proximoEstado(Integer estadoAtual, Token tokemAtual) {
 		// TODO Auto-generated method stub
-		return null;
+		return tabelaTransicao[estadoAtual][tokemAtual.tipo.valor()];
 	}
 
 	@Override
 	public Boolean retornaMaquina(Integer estadoAtual, Token tokemAtual) {
 		// TODO Auto-generated method stub
-		return null;
+		return false;
 	}
 
 }
