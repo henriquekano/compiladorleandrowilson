@@ -16,7 +16,7 @@ public class Compilador {
 		System.out.println("ESTE É O COMPILADOR DESENVOLVIDO POR LEANDRO CORDEIRO DAVID E WILSON FARIA\n\n");
 		System.out.println("Digite o nome do arquivo que deseja compilar:");
 		//nomeDoArquivo = scanner.next();
-		nomeDoArquivo = "c:\\teste_reservadas.txt";
+		nomeDoArquivo = "c:\\teste.txt";
 		System.out.println("Lendo arquivo:"+nomeDoArquivo);
 		nomeDoArquivo = nomeDoArquivo.replace("\\", "\\\\");
 	    System.out.println("Lendo arquivo:"+nomeDoArquivo);
