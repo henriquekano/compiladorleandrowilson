@@ -13,10 +13,10 @@ public class Maquina {
 		return tabelaTransicao[estadoAtual][entrada.tipo.valor()];
 		
 	}
-public TipoMaquina proximaMaquina(Integer estadoAtual, Token entrada){
+	/*public TipoMaquina proximaMaquina(Integer estadoAtual, Token entrada){
 		return tabelaTransicao[estadoAtual][entrada.tipo.valor()];
 		
-	}
+	}*/
 
 public Boolean empilha(Integer estadoAtual, Token entrada){
 	return null;
