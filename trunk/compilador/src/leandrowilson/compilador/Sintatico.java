@@ -1,7 +1,61 @@
 package leandrowilson.compilador;
 
 public class Sintatico {
-//	Maquina maquinaPrograma = new Maquina();
+	List listaDeTokens;
+	Integer ponteiroTokem = 0;
+	MaquinaPrograma maquinaPrograma = new MaquinaPrograma();
+
+	
+	public Sintatico(List ListaDeTokens) {
+		this.listaDeTokens = ListaDeTokens;
+	}
+
+	public Boolean executa(){
+		PilhaSintatico pilhaSintatico = new PilhaSintatico();
+		Integer estadoAtual=0;
+		Integer proximoEstado =0;
+		TipoMaquina maquinaAtual = TipoMaquina.PROGRAMA;
+		TipoMaquina proximaMaquina= TipoMaquina.PROGRAMA;
+		Boolean novaMaquina = false;
+		Boolean retornaMaquina = false;
+		Token tokemAtual=(Token) listaDeTokens.get(0);
+		ElementoSintatico desempilha=new ElementoSintatico();		
+		
+		while(!pilhaSintatico.empty()){
+			switch (maquinaAtual){
+				case PROGRAMA:
+					proximoEstado = maquinaPrograma.proximoEstado(estadoAtual, tokemAtual);
+					proximaMaquina = maquinaPrograma.proximaMaquina(estadoAtual, tokemAtual);
+					novaMaquina = maquinaPrograma.novaMaquina(estadoAtual, tokemAtual);
+					retornaMaquina = maquinaPrograma.retornaMaquina(estadoAtual,tokemAtual);
+				case FUNCAO:
+				case PROCEDIMENTO:
+				case DECLARACAO:
+				
+			}
+			if (novaMaquina){
+				pilhaSintatico.push(estadoAtual,maquinaAtual);
+				maquinaAtual = proximaMaquina;
+				estadoAtual = 0;
+			}
+			else if(retornaMaquina){
+				desempilha = pilhaSintatico.pop();
+				estadoAtual = desempilha.estado;
+				maquinaAtual = desempilha.maquina;
+			}
+			else{
+				estadoAtual = proximoEstado;
+				maquinaAtual = proximaMaquina;
+			}
+		}
+		return true;
+		
+	}
+private boolean estadoFinal(TipoMaquina maquinaAtual, Integer estadoAtual) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 //	Integer proximoEstado;
 //	Token tokemAtual;
 //	TipoMaquina maquinaAtual;
@@ -40,5 +94,10 @@ public class Sintatico {
 //				if MaquinaAtual = MaquinaPrograma && Acabou
 //
 //	}
+
+	private Token nextTokem() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }
