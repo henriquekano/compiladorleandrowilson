@@ -32,9 +32,5 @@ public class MaquinaProcedimento extends Maquina {
 		"(11,\"boolean\")->4%";
 		inicializarMaquina(12,strTransicoes,this.tipo);
 	}
-	@Override
-	public Integer proximoEstado(Integer estadoAtual, Token tokemAtual) {
-		return tabelaTransicao[estadoAtual][tokemAtual.tipo.valor()];
-	}
 
 }

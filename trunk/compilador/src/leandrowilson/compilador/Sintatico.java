@@ -39,7 +39,11 @@ public class Sintatico {
 		Boolean retornaMaquina = false;
 		Token tokemAtual = new Token();
 		ElementoSintatico desempilha=new ElementoSintatico();		
-		tokemAtual= proximoTokem();
+		try {
+			tokemAtual= proximoTokem();
+		} catch (Exception e) {
+			return false;
+		}
 		pilhaSintatico.push(0, TipoMaquina.PROGRAMA);
 		
 		
@@ -151,12 +155,19 @@ private boolean fimDosTokens() {
 		return ponteiroTokem==listaDeTokens.tamanho-1;
 	}
 
-private Token proximoTokem() {
+private Token proximoTokem() throws Exception {
 		ponteiroTokem++;
-		if (ponteiroTokem==listaDeTokens.tamanho){
+		if (ponteiroTokem.equals(listaDeTokens.tamanho)){
 			erros.add(new Erro(TipoErro.SINTATICO_FIMDETOKENS_ANTES_DO_FIM_DA_PILHA,(Token) listaDeTokens.get(ponteiroTokem-1)));
 			return new Token(TipoToken.LAST,-1);
-		}		
-		return (Token)listaDeTokens.get(ponteiroTokem);
+		}
+		if (ponteiroTokem>=(listaDeTokens.tamanho)){
+			erros.add(new Erro(TipoErro.SINTATICO,(Token) listaDeTokens.get(listaDeTokens.tamanho-1)));
+			throw new Exception();
+		}
+		else{
+			return (Token)listaDeTokens.get(ponteiroTokem);
+		}
+		
 	}
 }

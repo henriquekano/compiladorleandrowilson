@@ -57,10 +57,7 @@ public class MaquinaComando extends Maquina {
 		inicializarMaquina(30,strTransicoes,this.tipo);
 	}
 	
-	@Override
-	public Integer proximoEstado(Integer estadoAtual, Token tokemAtual) {
-		return tabelaTransicao[estadoAtual][tokemAtual.tipo.valor()];
-	}
+
 
 
 }

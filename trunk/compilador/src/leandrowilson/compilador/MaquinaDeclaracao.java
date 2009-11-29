@@ -26,43 +26,5 @@ public class MaquinaDeclaracao extends Maquina {
 		inicializarMaquina(10,strTransicoes,this.tipo);
 		
 	}
-//	@Override
-//	public void carregarTabelaDeTransicao() {
-//		carregarEntradaNaTabelaDeTransicao(0, TipoToken.PR_INT  	, 1,this.tipo,false);
-//		carregarEntradaNaTabelaDeTransicao(0, TipoToken.PR_FLOAT	, 1,this.tipo,false);
-//		carregarEntradaNaTabelaDeTransicao(0, TipoToken.PR_STRING	, 1,this.tipo,false);
-//		carregarEntradaNaTabelaDeTransicao(0, TipoToken.PR_BOOLEAN	, 1,this.tipo,false);
-//		carregarEntradaNaTabelaDeTransicao(0, TipoToken.PR_DECLARE	, 2,this.tipo,false);
-//		carregarEntradaNaTabelaDeTransicao(0, TipoToken.PR_STRUCT	, 3,this.tipo,false);
-//		carregarEntradaNaTabelaDeTransicao(1, TipoToken.COLCHETE_ABRE,4,this.tipo,false);
-//		carregarEntradaNaTabelaDeTransicao(1, TipoToken.ID			, 5,this.tipo,false);
-//		carregarEntradaNaTabelaDeTransicao(2, TipoToken.ID			, 1,this.tipo,false);
-//		carregarEntradaNaTabelaDeTransicao(3, TipoToken.ID			, 6,this.tipo,false);
-//		carregarEntradaNaTabelaDeTransicao(4, TipoToken.NUMERO		, 10,this.tipo,false);
-//		carregarEntradaNaTabelaDeTransicao(4, TipoToken.ID			, 10,this.tipo,false);
-//		carregarEntradaNaTabelaDeTransicao(5, TipoToken.PONTOEVIRGULA,7,this.tipo,false);
-//		carregarEntradaNaTabelaDeTransicao(6, TipoToken.CHAVE_ABRE	,8,this.tipo,false);
-//		carregarEntradaNaTabelaDeTransicao(8, TipoToken.PR_INT		, 9,this.tipo,false);
-//		carregarEntradaNaTabelaDeTransicao(8, TipoToken.ID			, 9,this.tipo,false);
-//		carregarEntradaNaTabelaDeTransicao(8, TipoToken.PR_FLOAT	, 9,this.tipo,false);
-//		carregarEntradaNaTabelaDeTransicao(8, TipoToken.PR_STRING	, 9,this.tipo,false);
-//		carregarEntradaNaTabelaDeTransicao(8, TipoToken.PR_BOOLEAN	, 9,this.tipo,false);
-//		carregarEntradaNaTabelaDeTransicao(8, TipoToken.CHAVE_FECHA	,7,this.tipo,false);
-//		carregarEntradaNaTabelaDeTransicao(9, TipoToken.COLCHETE_ABRE,11,this.tipo,false);
-//		carregarEntradaNaTabelaDeTransicao(9, TipoToken.ID			, 12,this.tipo,false);
-//		carregarEntradaNaTabelaDeTransicao(10, TipoToken.COLCHETE_FECHA,1,this.tipo,false);
-//		carregarEntradaNaTabelaDeTransicao(11, TipoToken.NUMERO		, 13,this.tipo,false);
-//		carregarEntradaNaTabelaDeTransicao(11, TipoToken.ID			, 13,this.tipo,false);
-//		carregarEntradaNaTabelaDeTransicao(12, TipoToken.PONTOEVIRGULA,8,this.tipo,false);
-//		carregarEntradaNaTabelaDeTransicao(13, TipoToken.COLCHETE_FECHA,9,this.tipo,false);
-//	}
-
-
-	@Override
-	public Integer proximoEstado(Integer estadoAtual, Token tokemAtual) {
-		return tabelaTransicao[estadoAtual][tokemAtual.tipo.valor()];
-	}
-
-	
 
 }

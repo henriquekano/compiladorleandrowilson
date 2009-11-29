@@ -11,9 +11,5 @@ public class MaquinaExpString extends Maquina {
 		"(2,\"identificador\")->1%";
 		inicializarMaquina(3,strTransicoes,this.tipo);
 	}
-	@Override
-	public Integer proximoEstado(Integer estadoAtual, Token tokemAtual) {
-		return tabelaTransicao[estadoAtual][tokemAtual.tipo.valor()];
-	}
 
 }

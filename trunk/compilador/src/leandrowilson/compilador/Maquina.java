@@ -8,16 +8,34 @@ public abstract class Maquina {
 	TipoMaquina[][] tabelaTransicaoMaquinas;
 	Boolean[][] tabelaNovaMaquina;
 	Integer[][] tabelaTransicaoSemantica;
+	List erros = new List();
 	
 	public Integer  QUANTIDADE_DE_TIPOTOKENS = TipoToken.tamanho();
 	public final Integer ESTADO_ERRO_SINTATICO = 999999;
 	
 	
-	public abstract Integer proximoEstado(Integer estadoAtual, Token tokemAtual);
+	public Integer proximoEstado(Integer estadoAtual, Token tokemAtual) {
+		if (estadoAtual == ESTADO_ERRO_SINTATICO){
+			geraErroSintatico(estadoAtual,tokemAtual);
+			return estadoInicial;
+		}
+		return tabelaTransicao[estadoAtual][tokemAtual.tipo.valor()];
+	}
+	public void geraErroSintatico(Integer estadoAtual, Token tokemAtual) {
+		erros.add(new Erro(TipoErro.SINTATICO_ESTADO_SINTATICO_INESPERADO,tokemAtual));
+	}
 	public TipoMaquina proximaMaquina(Integer estadoAtual, Token tokemAtual) {
+		if (estadoAtual == ESTADO_ERRO_SINTATICO){
+			geraErroSintatico(estadoAtual,tokemAtual);
+			return tipo;
+		}
 		return tabelaTransicaoMaquinas[estadoAtual][tokemAtual.tipo.valor()];
 	}
 	public Boolean novaMaquina(Integer estadoAtual, Token tokemAtual) {
+		if (estadoAtual == ESTADO_ERRO_SINTATICO){
+			geraErroSintatico(estadoAtual,tokemAtual);
+			return false;
+		}
 		return tabelaNovaMaquina[estadoAtual][tokemAtual.tipo.valor()];
 	}
 //	public abstract void carregarTabelaDeTransicao();
@@ -69,6 +87,10 @@ public abstract class Maquina {
 //		
 //	}
 	public Integer transSemantica(Integer estadoAtual, Token token){
+		if (estadoAtual == ESTADO_ERRO_SINTATICO){
+			geraErroSintatico(estadoAtual,token);
+			return -1;
+		}
 		return tabelaTransicaoSemantica[estadoAtual][token.tipo.valor()];
 	}
 	
