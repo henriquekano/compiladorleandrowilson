@@ -32,6 +32,4 @@ public class Escopo {
 	Descritor busca(String chave){
 		return (Descritor) tabelaDeSimbolos.get(chave);
 	}
-	
-	
 }
