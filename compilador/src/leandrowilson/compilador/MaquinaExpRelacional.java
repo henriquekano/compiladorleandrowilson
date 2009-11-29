@@ -31,9 +31,5 @@ public class MaquinaExpRelacional extends Maquina {
 		"(9,\"]\")->5%";
 		inicializarMaquina(10,strTransicoes,this.tipo);
 	}
-	@Override
-	public Integer proximoEstado(Integer estadoAtual, Token tokemAtual) {
-		return tabelaTransicao[estadoAtual][tokemAtual.tipo.valor()];
-	}
 
 }

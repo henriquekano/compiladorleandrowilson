@@ -30,10 +30,7 @@ public class MaquinaExpressao extends Maquina {
 		"(10,\"]\")->5%";
 		inicializarMaquina(11,strTransicoes,this.tipo);
 	}
-	@Override
-	public Integer proximoEstado(Integer estadoAtual, Token tokemAtual) {
-		return tabelaTransicao[estadoAtual][tokemAtual.tipo.valor()];
-	}
+
 	public TipoMaquina proximaMaquina(Integer estadoAtual, Token tokemAtual,Token tokemAhead) {
 		if(estadoAtual.equals(0)){
 			switch(tokemAtual.tipo){

@@ -26,9 +26,5 @@ public class MaquinaExpAritmetica extends Maquina {
 		"(7,\"]\")->2%";
 		inicializarMaquina(8,strTransicoes,this.tipo);
 	}
-	@Override
-	public Integer proximoEstado(Integer estadoAtual, Token tokemAtual) {
-		return tabelaTransicao[estadoAtual][tokemAtual.tipo.valor()];
-	}
 
 }
