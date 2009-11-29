@@ -102,13 +102,14 @@ public class TabelaDeTransicao {
 		}
 
 		//preenche o resto
-		tabelaDeTransicao[2][33]=7;
+		tabelaDeTransicao[2][33]=6;
 		tabelaDeTransicao[2][34]=10;
-		tabelaDeTransicao[2][38]=10;
+		tabelaDeTransicao[2][38]=8;
 		tabelaDeTransicao[2][40]=8;
 		tabelaDeTransicao[2][41]=8;
 		tabelaDeTransicao[2][42]=8;
 		tabelaDeTransicao[2][43]=8;
+		tabelaDeTransicao[2][44]=8;
 		tabelaDeTransicao[2][45]=8;
 		tabelaDeTransicao[2][47]=8;
 		tabelaDeTransicao[2][59]=8;

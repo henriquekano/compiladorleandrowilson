@@ -107,7 +107,8 @@ public   class Util {
 			//lados[0]=lados[0].replaceFirst("\\(", "");
 			lados[0]=lados[0].substring(1, lados[0].length()-1);
 			Log(lados[0]);
-			ladoEsquerdo = lados[0].split(",");
+			lados[0] = lados[0].replaceFirst(",", "%");
+			ladoEsquerdo = lados[0].split( "%");
 			estadoInicial = ladoEsquerdo[0];
 			entrada = ladoEsquerdo[1];
 			Log(estadoInicial);
