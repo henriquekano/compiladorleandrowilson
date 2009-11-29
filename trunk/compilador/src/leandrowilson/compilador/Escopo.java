@@ -20,4 +20,18 @@ public class Escopo {
 	void AddSimbolo(String chave, Descritor descritor){
 		tabelaDeSimbolos.AddSimbolo(chave, descritor);
 	}
+	
+	Boolean existeNaTabela(String chave){
+		Boolean existe = false;
+		if((tabelaDeSimbolos.containsKey(chave)) || (escopoPai != null && escopoPai.tabelaDeSimbolos.containsKey(chave)) ){
+			existe = true;
+		}
+		return existe;
+	}
+	
+	Descritor busca(String chave){
+		return (Descritor) tabelaDeSimbolos.get(chave);
+	}
+	
+	
 }
