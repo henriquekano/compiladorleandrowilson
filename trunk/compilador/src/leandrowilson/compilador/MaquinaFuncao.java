@@ -1,35 +1,20 @@
 package leandrowilson.compilador;
 
 public class MaquinaFuncao extends Maquina {
+	
+	MaquinaFuncao(){
+//		inicializarMaquina(4,0,3);
+//		carregarTabelaDeTransicao();
+	}
+	
+
 
 	@Override
-	public Boolean novaMaquina(Integer estadoAtual, Token entrada) {
+	public Integer proximoEstado(Integer estadoAtual, Token tokemAtual) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
-	public TipoMaquina proximaMaquina(Integer estadoAtual, Token entrada) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Integer proximoEstado(Integer estadoAtual, Token entrada) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void carregarTabelaDeTransicao() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public Boolean retornaMaquina(Integer estadoAtual, Token tokemAtual) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 
 }

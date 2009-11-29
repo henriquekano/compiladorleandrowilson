@@ -45,14 +45,16 @@ public enum TipoToken {
 	PLUS(43),
 	QUEBRADO(44),
 	PR_MAIN(45),
-	PR_STRUCT(46);
+	PR_STRUCT(46),
+	PR_DECLARE(47),
+	LAST(48);
 	
 	private final Integer valor;
 	public Integer valor(){
 		return this.valor;
 	}
 	public static Integer tamanho(){
-		return 47;
+		return 49;
 	}
 	
 	TipoToken(Integer valor){
@@ -62,6 +64,8 @@ public enum TipoToken {
 	public static TipoToken tipoToken(String token) {
 		if (token.equals("main"))
 			return TipoToken.PR_MAIN;
+		if (token.equals("declare"))
+			return TipoToken.PR_DECLARE;
 		if (token.equals("struct"))
 			return TipoToken.PR_STRUCT;
 		if (token.equals("true"))
@@ -142,6 +146,57 @@ public enum TipoToken {
 				return TipoToken.VIRGULA ;
 		if (token.equals(";"))
 				return TipoToken.PONTOEVIRGULA ;
+		if (token.equals("identificador"))
+			return TipoToken.ID ;
+		if (token.equals("tipo_string"))
+			return TipoToken.STRING ;
+		if (token.equals("inteiro"))
+			return TipoToken.NUMERO ;
+		if (token.equals("numero"))
+			return TipoToken.NUMERO ;
 		return TipoToken.QUEBRADO;
+	}
+	public static boolean isPalavraReservada(String token) {
+		if (token.equals("main"))
+			return true;
+		if (token.equals("declare"))
+			return true;
+		if (token.equals("struct"))
+			return true;
+		if (token.equals("true"))
+			return true;
+		if (token.equals("false"))
+			return true;
+		if (token.equals("int"))
+			return true;
+		if (token.equals("float"))
+			return true;
+		if (token.equals("string"))
+			return true;
+		if (token.equals("boolean"))
+			return true;
+		if (token.equals("procedure"))
+			return true;
+		if (token.equals("callproc"))
+			return true;
+		if (token.equals("procedure"))
+			return true;
+		if (token.equals("function"))
+			return true;
+		if (token.equals("callfunc"))
+			return true;
+		if (token.equals("if"))
+			return true;
+		if (token.equals("else"))
+			return true;
+		if (token.equals("while"))
+			return true;
+		if (token.equals("input"))
+			return true;
+		if (token.equals("output"))
+			return true;
+		if (token.equals("return"))
+			return true;
+		return false;
 	}
 }
