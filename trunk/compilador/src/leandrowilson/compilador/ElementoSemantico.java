@@ -4,7 +4,7 @@ public class ElementoSemantico {
 	Escopo escopo;
 	TipoMaquina tipoMaquina;
 	Integer transicaoSemantica;
-	PilhaSemantico pilhaSemnatico;
+	PilhaSemantico pilhaSemantico;
 	
 	public ElementoSemantico() {
 
@@ -14,7 +14,7 @@ public class ElementoSemantico {
 		this.escopo = escopo;
 		this.tipoMaquina = tipoMaquina;
 		this.transicaoSemantica = transicaoSemantica;
-		this.pilhaSemnatico = pilhaSemnatico;
+		this.pilhaSemantico = pilhaSemnatico;
 	}
 	
 }
