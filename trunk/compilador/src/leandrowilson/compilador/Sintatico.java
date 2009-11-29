@@ -133,8 +133,10 @@ public class Sintatico {
 				maquinaAtual = proximaMaquina;
 				tokemAtual= proximoTokem();
 			}
-			elSemantico = new ElementoSemantico(escopoAtual, maquinaAtual, transicaoSemantica, pilhaSemantico);
+			elSemantico = new ElementoSemantico(escopoAtual, maquinaAtual, transicaoSemantica, pilhaSemantico,tokemAtual);
 			elSemantico = semantico.analisa(elSemantico);
+			escopoAtual = elSemantico.escopo;
+			pilhaSemantico = elSemantico.pilhaSemantico;
 		}
 		if (!fimDosTokens()){
 			erros.add(new Erro(TipoErro.SINTATICO_FIMDEPILHA_ANTES_DO_FIM_DOS_TOKENS,tokemAtual));
