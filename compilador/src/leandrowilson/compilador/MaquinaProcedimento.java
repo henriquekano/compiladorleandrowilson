@@ -20,11 +20,11 @@ public class MaquinaProcedimento extends Maquina {
 		return null;
 	}
 
-	@Override
-	public void carregarTabelaDeTransicao() {
-		// TODO Auto-generated method stub
-		
-	}
+//	@Override
+//	public void carregarTabelaDeTransicao() {
+//		// TODO Auto-generated method stub
+//		
+//	}
 
 	@Override
 	public Boolean retornaMaquina(Integer estadoAtual, Token tokemAtual) {

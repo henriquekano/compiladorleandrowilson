@@ -28,16 +28,10 @@ public class Sintatico {
 		Boolean retornaMaquina = false;
 		Token tokemAtual = new Token();
 		ElementoSintatico desempilha=new ElementoSintatico();		
-		
-		while(!pilhaSintatico.empty()){
-			if(fimDosTokens()){
-				erros.add(new Erro(TipoErro.SINTATICO_FIMDETOKENS_ANTES_DO_FIM_DA_PILHA,tokemAtual));
-				return false;
-			}
-			else{
-				tokemAtual= proximoTokem();
-			}
-			
+		tokemAtual= proximoTokem();
+		pilhaSintatico.push(0, TipoMaquina.PROGRAMA);
+		while(!pilhaSintatico.isEmpty()){
+				
 			switch (maquinaAtual){
 				case PROGRAMA:
 					proximoEstado 	= maquinaPrograma.proximoEstado(estadoAtual, tokemAtual);
@@ -63,10 +57,9 @@ public class Sintatico {
 					novaMaquina 	= maquinaDeclaracao.novaMaquina(estadoAtual, tokemAtual);
 					retornaMaquina 	= maquinaDeclaracao.retornaMaquina(estadoAtual,tokemAtual);
 					break;
-				
 			}
 			if (novaMaquina){
-				pilhaSintatico.push(estadoAtual,maquinaAtual);
+				pilhaSintatico.push(proximoEstado,maquinaAtual);
 				maquinaAtual = proximaMaquina;
 				estadoAtual = 0;
 			}
@@ -78,6 +71,7 @@ public class Sintatico {
 			else{
 				estadoAtual = proximoEstado;
 				maquinaAtual = proximaMaquina;
+				tokemAtual= proximoTokem();
 			}
 		}
 		if (!fimDosTokens()){
@@ -95,56 +89,10 @@ private boolean fimDosTokens() {
 
 private Token proximoTokem() {
 		ponteiroTokem++;
+		if (ponteiroTokem==listaDeTokens.tamanho){
+			erros.add(new Erro(TipoErro.SINTATICO_FIMDETOKENS_ANTES_DO_FIM_DA_PILHA,(Token) listaDeTokens.get(ponteiroTokem-1)));
+			return new Token(TipoToken.LAST,-1);
+		}		
 		return (Token)listaDeTokens.get(ponteiroTokem);
 	}
-
-private boolean estadoFinal(TipoMaquina maquinaAtual, Integer estadoAtual) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-//	Integer proximoEstado;
-//	Token tokemAtual;
-//	TipoMaquina maquinaAtual;
-//	maq1
-//	maq2
-//	ma3
-//	while(true){
-//		
-//		proximoEstado= maquinaPrograma.proximoEstado(1, new Token());
-//	}
-//	
-//	Integer proximoestado(TipoMaquina maquina, estadoAtual){
-//			switch case
-//				Tipo1
-//					proximoestado = maq1.proximoEstad(estadoAtual,token))
-//					proxiMaq = maq1.proximamaq(estadoAtual,token)
-//			
-//					
-//					
-//				end swtich
-//				if ultimoestado
-//					if MaquinaAtual = MaquinaPrograma
-//						
-//						sysout("IFM DO PROGRAMA - ARQUIVO BINARIO DA MVN CRIADO mvn.codigo")
-//					else
-//						proximo = pilha.pop();	
-//						PROXIMOestado(proxiomo.maquina,proximo.estado);
-//					
-//				else if chamaOutraMaquina
-//					push(new proximo(maquina,proximoestado));
-//					proximoestado(proximamaquina,0);				
-//				
-//				else 
-//				proximoestado(maquinaAtual,proximoaEstado)
-//				
-//				if MaquinaAtual = MaquinaPrograma && Acabou
-//
-//	}
-
-	private Token nextTokem() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

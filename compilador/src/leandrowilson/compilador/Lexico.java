@@ -33,11 +33,11 @@ public class Lexico {
 	BufferedInputStream bis =null; //BufferedInputStream
 	DataInputStream dis =null; //DataInputStream
 	private int linha = 1; //contagem de linhas do arquivo
-	public String[] palavrasReservadas=
-		{"true","false","int","float","string","boolean",
-			"procedure","callproc","function","callfunc",
-			"if","else","while","input","output","return"};
-	
+//	public String[] palavrasReservadas=
+//		{"true","false","int","float","string","boolean",
+//			"procedure","callproc","function","callfunc",
+//			"if","else","while","input","output","return"};
+//	
 	public Lexico() {
 		tabelaDeTransicao= new TabelaDeTransicao();
 		bufferDeLeitura1 = new char[TAMANHOBUFFER];
@@ -57,6 +57,7 @@ public class Lexico {
 	public List obterListaDeTokens(String nomeDoArquivo){
 		leArquivo(nomeDoArquivo);
 		analisaArquivo();
+		listaDeTokens.add(new Token("",TipoToken.LAST,linha));
 		return listaDeTokens;
 	}
 	
@@ -146,7 +147,7 @@ public class Lexico {
 		{	
 			case TabelaDeTransicao.ESTADO_GERATOKEM_ID:
 				retornaCaracter();
-				if (palavrareservada(tokenBuffer.toString())){
+				if (TipoToken.isPalavraReservada(tokenBuffer.toString())){
 					adicionaTokenNaLista(new Token(TipoToken.tipoToken(tokenBuffer.toString()),linha));
 				}
 				else{
@@ -187,14 +188,14 @@ public class Lexico {
 		
 	}
 
-	private boolean palavrareservada(String identificador) {
-		for (int i =0;i<palavrasReservadas.length;i++){
-			if (identificador.equals(palavrasReservadas[i])){
-				return true;
-			}
-		}
-		return false;
-	}
+//	private boolean palavrareservada(String identificador) {
+//		for (int i =0;i<palavrasReservadas.length;i++){
+//			if (identificador.equals(palavrasReservadas[i])){
+//				return true;
+//			}
+//		}
+//		return false;
+//	}
 
 	private void retornaCaracter() {
 		

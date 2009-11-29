@@ -1,25 +1,42 @@
 package leandrowilson.compilador;
 
 public abstract class Maquina {
+	public TipoMaquina tipo =null;
 	public  Integer estadoInicial;
 	public Integer[] estadosFinais;
 	Integer[][] tabelaTransicao ; //Tabela de Transicao de Estados
 	TipoMaquina[][] tabelaTransicaoMaquinas;
 	Boolean[][] tabelaNovaMaquina;
 	
-	
 	public Integer  QUANTIDADE_DE_TIPOTOKENS = TipoToken.tamanho();
 	public final Integer ESTADO_ERRO_SINTATICO = 999999;
 	
 	
 	public abstract Integer proximoEstado(Integer estadoAtual, Token tokemAtual);
-	public abstract TipoMaquina proximaMaquina(Integer estadoAtual, Token tokemAtual);
-	public abstract Boolean novaMaquina(Integer estadoAtual, Token tokemAtual);
-	public abstract void carregarTabelaDeTransicao();
-	public abstract Boolean retornaMaquina(Integer estadoAtual, Token tokemAtual);
-	public void inicializarMaquina(int quantidadeDeEstados,Integer _estadoInicial,Integer[] _estadosFinais) {
-		estadoInicial = _estadoInicial;
-		estadosFinais = _estadosFinais;
+	public TipoMaquina proximaMaquina(Integer estadoAtual, Token tokemAtual) {
+		return tabelaTransicaoMaquinas[estadoAtual][tokemAtual.tipo.valor()];
+	}
+	public Boolean novaMaquina(Integer estadoAtual, Token tokemAtual) {
+		return tabelaNovaMaquina[estadoAtual][tokemAtual.tipo.valor()];
+	}
+//	public abstract void carregarTabelaDeTransicao();
+	public Boolean retornaMaquina(Integer estadoAtual,Token tokemAtual) {
+		if (estadoFinal(estadoAtual)){//Se o estado atual não é final, não é retorno de máquina
+			if (proximoEstado(estadoAtual, tokemAtual)==ESTADO_ERRO_SINTATICO){//se o proximo estado do estado atual é estado de erro, é pq nao há nova transicao e a maquina deve voltar
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+		else{
+			return false;
+		}
+	}
+
+	public void inicializarMaquina(int quantidadeDeEstados,String strTransicoes, TipoMaquina tipoMaquina) {
+		estadoInicial = Util.obterEstadoInicial(strTransicoes);
+		estadosFinais = Util.obterEstadosFinais(strTransicoes);
 		tabelaTransicao = new Integer[quantidadeDeEstados][QUANTIDADE_DE_TIPOTOKENS];
 		tabelaTransicaoMaquinas = new TipoMaquina[quantidadeDeEstados][QUANTIDADE_DE_TIPOTOKENS];
 		tabelaNovaMaquina = new Boolean[quantidadeDeEstados][QUANTIDADE_DE_TIPOTOKENS];
@@ -27,22 +44,28 @@ public abstract class Maquina {
 		for (int k =0;k<quantidadeDeEstados;k++){
 			for (int j=0;j<QUANTIDADE_DE_TIPOTOKENS;j++){
 				tabelaTransicao[k][j] = ESTADO_ERRO_SINTATICO;
-				tabelaTransicaoMaquinas[k][j] = TipoMaquina.PROGRAMA;
+				tabelaTransicaoMaquinas[k][j] = tipoMaquina;
 				tabelaNovaMaquina[k][j] = false;
+			}
+		}
+		List transicoes = Util.obterTransicoes(strTransicoes);
+		for(int i=0;i<transicoes.tamanho;i++){
+			TransicaoSintatica t = (TransicaoSintatica) transicoes.get(i);
+			if (t.transicaoParaMaquina){
+				carregarEntradasDeSubmaquina(t.estadoInicial, t.maquina, t.proximoEstado);
+			}
+			else{
+				carregarEntradaNaTabelaDeTransicao(t.estadoInicial, t.token, t.proximoEstado, tipoMaquina, false);
 			}
 		}
 	}
 	
-	public void inicializarMaquina(int quantidadeDeEstados, int estadoInicial,int estadoFinal) {
-		Integer[] estadosFinais = {estadoFinal};
-		inicializarMaquina(quantidadeDeEstados, estadoInicial, estadosFinais);
-		
-	}
-	
-//	public void inicializarMaquina(int quantidadeDeEstados, int estadoInicial,Integer... estadosFinais) {
-//		inicializarMaquina(quantidadeDeEstados, estadoInicial, estadosFinais);
+//	public void inicializarMaquina(int quantidadeDeEstados, int estadoInicial,int estadoFinal,String strTransicoes) {
+//		Integer[] estadosFinais = {estadoFinal};
+//		inicializarMaquina(quantidadeDeEstados, estadoInicial, estadosFinais,strTransicoes);
 //		
 //	}
+	
 	public Boolean estadoErro(Integer estado){
 		return estado==ESTADO_ERRO_SINTATICO;
 		
@@ -59,5 +82,17 @@ public abstract class Maquina {
 		}
 		
 	}
+	public Boolean estadoFinal(Integer estado){
+		for (int i = 0;i<estadosFinais.length;i++){
+			if (estado.equals(estadosFinais[i])) {
+				return true;
+			}
+		}
+		return false;
+		
+	}
+//	public void carregarTabelaDeTransicao(String strTransicoes){
+//		
+//	}
 	
 }

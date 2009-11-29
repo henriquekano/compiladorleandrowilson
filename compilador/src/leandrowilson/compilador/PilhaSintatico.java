@@ -1,20 +1,24 @@
 package leandrowilson.compilador;
 
-public class PilhaSintatico {
+import java.util.Stack;
 
-	public boolean empty() {
-		// TODO Auto-generated method stub
-		return false;
+public class PilhaSintatico{
+	Stack<ElementoSintatico> pilha = new Stack<ElementoSintatico>();
+	
+	public boolean isEmpty() {
+		return pilha.isEmpty();
 	}
 
-	public void push(Integer estadoAtual, TipoMaquina maquinaAtual) {
-		// TODO Auto-generated method stub
-		
+	public void push(Integer proximoEstado, TipoMaquina maquinaAtual) {
+		pilha.push(new ElementoSintatico(proximoEstado,maquinaAtual));
 	}
 
 	public ElementoSintatico pop() {
-		// TODO Auto-generated method stub
-		return null;
+		return pilha.pop();
+	}
+	
+	public ElementoSintatico peek(){
+		return pilha.peek();
 	}
 
 }

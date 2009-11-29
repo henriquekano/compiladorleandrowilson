@@ -21,13 +21,19 @@ public class Compilador {
 		
 		//nomeDoArquivo = scanner.next();
 //		nomeDoArquivo = "c:\\teste.txt";
-		nomeDoArquivo = "c:\\teste_reservadas.txt";
+//		nomeDoArquivo = "c:\\teste_reservadas.txt";
+		nomeDoArquivo = "c:\\testePrograma.txt";
 		System.out.println("Lendo arquivo:"+nomeDoArquivo);
 		nomeDoArquivo = nomeDoArquivo.replace("\\", "\\\\");
 	    System.out.println("Lendo arquivo:"+nomeDoArquivo);
 //	    testalexico(nomeDoArquivo);
 		sintatico = new Sintatico(lex.obterListaDeTokens(nomeDoArquivo));
-		sintatico.executa();
+		if (sintatico.executa()){
+			Util.Log("Sintatico finalizado com sucesso!");
+		}
+		else{
+			Util.Log("Sintatico finalizado com ERRO!");
+		}
 	}
 	private static void testalexico(String nomeDoArquivo) {
 		List listaDeTokens = lex.obterListaDeTokens(nomeDoArquivo);
