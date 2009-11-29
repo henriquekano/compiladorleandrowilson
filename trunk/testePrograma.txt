@@ -1,0 +1,63 @@
+main{
+int[1][2][index] i;
+boolean b;
+string str;
+declare teste tst;
+struct teste{
+		int a;
+		boolean b;}
+struct waka{
+		int a;
+		declare teste bla;}
+declare waka w;
+input b;
+output b;
+input b[4];
+output b[6];
+callproc alfa(b,a,c[5],d[6][7][index]);
+b=1;
+c=true;
+boooo = true & false & false;
+c = false | (true & true);
+k = false==true;
+v =i==d;
+e = e<=4;
+r = 4!=2;
+e = 3+4*6/(2+1);
+str = "abc" + "def" + ident;
+}
+
+function int teste(){
+	int i;
+	i = 3;
+	return valor;
+}
+
+procedure waka(){
+	string vsf;
+	vsf ="vai se fissurar";
+}
+
+function int teste(){
+	int i;
+	i = 3;
+	return valor;
+}
+function int teste(){
+	int i;
+	i = 3;
+	return valor;
+}
+
+procedure waka(){
+	string vsf;
+	vsf ="vai se fissurar";
+}
+procedure waka(){
+	string vsf;
+	vsf ="vai se fissurar";
+}
+procedure waka(){
+	string vsf;
+	vsf ="vai se fissurar";
+}
