@@ -199,4 +199,23 @@ public enum TipoToken {
 			return true;
 		return false;
 	}
+	public static boolean ehOpRelacional(TipoToken tipo) {
+		return (tipo.equals(TipoToken.EQUAL_COMPARISON )||
+				tipo.equals(TipoToken.MAIOR) ||
+				tipo.equals(TipoToken.MENOR)||
+				tipo.equals(TipoToken.MAIOR_IGUAL )||
+				tipo.equals(TipoToken.MENOR_IGUAL)||
+				tipo.equals(TipoToken.DIFFERENT));
+	}
+	public static boolean ehOpLogico(TipoToken tipo) {
+		return (tipo.equals(TipoToken.EQUAL_COMPARISON )||
+				tipo.equals(TipoToken.DIFFERENT) ||
+				tipo.equals(TipoToken.AND)||
+				tipo.equals(TipoToken.OR ));
+	}
+	public static boolean ehOpAritmetico(TipoToken tipo) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

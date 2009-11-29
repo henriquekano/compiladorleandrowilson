@@ -2,15 +2,15 @@ package leandrowilson.compilador;
 
 public enum TipoMaquina {
 	PROGRAMA(new TipoToken[] {TipoToken.PR_MAIN}),
-	FUNCAO(new TipoToken[] {TipoToken.PR_MAIN}),
-	PROCEDIMENTO(new TipoToken[] {TipoToken.PR_MAIN}),
+	FUNCAO(new TipoToken[] {TipoToken.PR_FUNCTION}),
+	PROCEDIMENTO(new TipoToken[] {TipoToken.PR_PROCEDURE}),
 	DECLARACAO(new TipoToken[] {TipoToken.PR_INT,TipoToken.PR_STRING,TipoToken.PR_BOOLEAN,TipoToken.PR_DECLARE , TipoToken.PR_STRUCT}),
-	COMANDO(new TipoToken[] {TipoToken.PR_MAIN}),
-	EXPRESSAO(new TipoToken[] {TipoToken.PR_MAIN}),
-	EXPBOOLEANA(new TipoToken[] {TipoToken.PR_MAIN}),
-	EXPRELACIONAL(new TipoToken[] {TipoToken.PR_MAIN}),
-	EXPARITMETICA(new TipoToken[] {TipoToken.PR_MAIN}),
-	EXPSTRING(new TipoToken[] {TipoToken.PR_MAIN});
+	COMANDO(new TipoToken[] {TipoToken.ID,TipoToken.PR_IF,TipoToken.PR_WHILE,TipoToken.PR_INPUT,TipoToken.PR_OUTPUT,TipoToken.PR_CALLPROC}),
+	EXPRESSAO(new TipoToken[] {TipoToken.PR_CALLPROC,TipoToken.ID,TipoToken.PR_TRUE ,TipoToken.PR_FALSE , TipoToken.PARENTESE_ABRE,TipoToken.NOT,TipoToken.ID,TipoToken.NUMERO,TipoToken.MINUS,TipoToken.STRING}),
+	EXPBOOLEANA(new TipoToken[] {TipoToken.ID,TipoToken.PR_TRUE ,TipoToken.PR_FALSE , TipoToken.PARENTESE_ABRE,TipoToken.NOT }),
+	EXPRELACIONAL(new TipoToken[] {TipoToken.ID,TipoToken.NUMERO}),
+	EXPARITMETICA(new TipoToken[] {TipoToken.MINUS,TipoToken.ID,TipoToken.NUMERO,TipoToken.PARENTESE_ABRE}),
+	EXPSTRING(new TipoToken[] {TipoToken.STRING});
 
 	private final TipoToken[] first;
 	public TipoToken[] first() {

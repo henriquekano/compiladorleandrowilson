@@ -11,6 +11,12 @@ public class Sintatico {
 	MaquinaProcedimento maquinaProcedimento = new MaquinaProcedimento();
 	MaquinaDeclaracao maquinaDeclaracao = new MaquinaDeclaracao();
 	MaquinaComando maquinaComando= new MaquinaComando();
+	MaquinaExpressao maquinaExpressao= new MaquinaExpressao();
+	MaquinaExpBooleana maquinaExpBooleana = new MaquinaExpBooleana();
+	MaquinaExpRelacional maquinaExpRelacional = new MaquinaExpRelacional();
+	MaquinaExpAritmetica maquinaExpAritmetica = new MaquinaExpAritmetica();
+	MaquinaExpString maquinaExpString = new MaquinaExpString();
+	
 	
 	public Sintatico(List ListaDeTokens) {
 		this.listaDeTokens = ListaDeTokens;
@@ -31,7 +37,7 @@ public class Sintatico {
 		tokemAtual= proximoTokem();
 		pilhaSintatico.push(0, TipoMaquina.PROGRAMA);
 		while(!pilhaSintatico.isEmpty()){
-				
+			Util.Log("Maquina:"+maquinaAtual.toString()+"  Estado:"+estadoAtual.toString()+" Token:<"+tokemAtual.tipo.toString()+","+tokemAtual.valor+">");	
 			switch (maquinaAtual){
 				case PROGRAMA:
 					proximoEstado 	= maquinaPrograma.proximoEstado(estadoAtual, tokemAtual);
@@ -57,6 +63,43 @@ public class Sintatico {
 					novaMaquina 	= maquinaDeclaracao.novaMaquina(estadoAtual, tokemAtual);
 					retornaMaquina 	= maquinaDeclaracao.retornaMaquina(estadoAtual,tokemAtual);
 					break;
+				case COMANDO:
+					proximoEstado 	= maquinaComando.proximoEstado(estadoAtual, tokemAtual);
+					proximaMaquina 	= maquinaComando.proximaMaquina(estadoAtual, tokemAtual);
+					novaMaquina 	= maquinaComando.novaMaquina(estadoAtual, tokemAtual);
+					retornaMaquina 	= maquinaComando.retornaMaquina(estadoAtual,tokemAtual);
+					break;
+				case EXPRESSAO:
+					proximoEstado 	= maquinaExpressao.proximoEstado(estadoAtual, tokemAtual);
+					proximaMaquina 	= maquinaExpressao.proximaMaquina(estadoAtual, tokemAtual, (Token) listaDeTokens.get(ponteiroTokem+1));
+					novaMaquina 	= maquinaExpressao.novaMaquina(estadoAtual, tokemAtual);
+					retornaMaquina 	= maquinaExpressao.retornaMaquina(estadoAtual,tokemAtual);
+					break;
+				case EXPBOOLEANA:
+					proximoEstado 	= maquinaExpBooleana.proximoEstado(estadoAtual, tokemAtual);
+					proximaMaquina 	= maquinaExpBooleana.proximaMaquina(estadoAtual, tokemAtual);
+					novaMaquina 	= maquinaExpBooleana.novaMaquina(estadoAtual, tokemAtual);
+					retornaMaquina 	= maquinaExpBooleana.retornaMaquina(estadoAtual,tokemAtual);
+					break;
+				case EXPRELACIONAL:
+					proximoEstado 	= maquinaExpRelacional.proximoEstado(estadoAtual, tokemAtual);
+					proximaMaquina 	= maquinaExpRelacional.proximaMaquina(estadoAtual, tokemAtual);
+					novaMaquina 	= maquinaExpRelacional.novaMaquina(estadoAtual, tokemAtual);
+					retornaMaquina 	= maquinaExpRelacional.retornaMaquina(estadoAtual,tokemAtual);
+					break;
+				case EXPARITMETICA:
+					proximoEstado 	= maquinaExpAritmetica.proximoEstado(estadoAtual, tokemAtual);
+					proximaMaquina 	= maquinaExpAritmetica.proximaMaquina(estadoAtual, tokemAtual);
+					novaMaquina 	= maquinaExpAritmetica.novaMaquina(estadoAtual, tokemAtual);
+					retornaMaquina 	= maquinaExpAritmetica.retornaMaquina(estadoAtual,tokemAtual);
+					break;
+				case EXPSTRING:
+					proximoEstado 	= maquinaExpString.proximoEstado(estadoAtual, tokemAtual);
+					proximaMaquina 	= maquinaExpString.proximaMaquina(estadoAtual, tokemAtual);
+					novaMaquina 	= maquinaExpString.novaMaquina(estadoAtual, tokemAtual);
+					retornaMaquina 	= maquinaExpString.retornaMaquina(estadoAtual,tokemAtual);
+					break;
+				
 			}
 			if (novaMaquina){
 				pilhaSintatico.push(proximoEstado,maquinaAtual);

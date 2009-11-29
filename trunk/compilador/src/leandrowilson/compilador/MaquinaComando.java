@@ -6,9 +6,9 @@ public class MaquinaComando extends Maquina {
 		String strTransicoes = "initial:0%"+
 		"final:11,22%"+
 		"(0,\"identificador\")->1%"+
-		"(0,\"if\")->2%"+
+		"(0,\"if\")->2%"+ 
 		"(0,\"while\")->3%"+
-		"(0,\"input\")->4%"+
+		"(0,\"input\")->4%"+ 
 		"(0,\"output\")->4%"+
 		"(0,\"callproc\")->5%"+
 		"(1,\"[\")->6%"+
@@ -23,10 +23,8 @@ public class MaquinaComando extends Maquina {
 		"(8,\"(\")->10%"+
 		"(9,\";\")->11%"+
 		"(10,\"identificador\")->12%"+
-		"(10,\")\")->9%"+
-		"(10,\"numero\")->13%"+
-		"(10,\"string\")->13%"+
-		"(12,\"[\")->16%"+
+		"(10,\")\")->9%"+"(10,\"numero\")->13%"+
+		"(10,\"string\")->13%"+"(12,\"[\")->16%"+
 		"(12,\")\")->9%"+
 		"(12,\",\")->14%"+
 		"(13,\")\")->9%"+
