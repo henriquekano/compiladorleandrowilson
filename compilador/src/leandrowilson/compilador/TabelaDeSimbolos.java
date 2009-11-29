@@ -8,10 +8,4 @@ public class TabelaDeSimbolos extends Hashtable{
 	public void AddSimbolo(String chave, Descritor descritor) {
 		table.put(chave, descritor);
 	}
-	
-	
-	
-	
-	
-	
 }
