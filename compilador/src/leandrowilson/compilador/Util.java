@@ -115,10 +115,10 @@ public   class Util {
 			Log(entrada);
 			Log("Transicao Lida - estado inicial:"+estadoInicial+" entrada:"+entrada+" proximo estado:"+proximoEstado);
 			if (TipoMaquina.ehMaquina(entrada)){
-				listaDeTransicoes.add(new TransicaoSintatica(true,estadoInicial,entrada,proximoEstado));
+				listaDeTransicoes.add(new TransicaoSintatica(true,estadoInicial,entrada,proximoEstado,i-2));
 			}
 			else{
-				listaDeTransicoes.add(new TransicaoSintatica(false, estadoInicial, entrada.replace("\"",""), proximoEstado));
+				listaDeTransicoes.add(new TransicaoSintatica(false, estadoInicial, entrada.replace("\"",""), proximoEstado,i-2));
 			}
 		}
 		if(log){
