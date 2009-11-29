@@ -2,7 +2,7 @@ package leandrowilson.compilador;
 
 public class Semantico {
 	Integer contadorEscopo =0;
-	
+	List erros = new List();
 	
 	public ElementoSemantico analisa(ElementoSemantico elSemantico) {
 		Escopo escopo = elSemantico.escopo;
@@ -19,8 +19,20 @@ public class Semantico {
 				case 0:
 					
 					break;
-
+				case 1:
+					break;
+				case 2:
+					break;
+				case 3:
+					break;
+				case 4:
+					break;
+				case 5:
+					break;
+				case 6:
+					break;
 				default:
+					erros.add(new Erro(TipoErro.SEMANTICO_TRANS_SEMANTICA_INESPERADA,elSemantico.token));
 					break;
 				}
 				break;
@@ -116,7 +128,7 @@ public class Semantico {
 				break;
 		}
 		
-		return null;
+		return elSemantico;
 	}
 
 }
