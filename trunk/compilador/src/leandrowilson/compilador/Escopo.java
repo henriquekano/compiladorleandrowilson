@@ -17,9 +17,7 @@ public class Escopo {
 		this.tabelaDeSimbolos = new TabelaDeSimbolos();
 	}
 	
-	void AddSimbolo(Token token){
-		tabelaDeSimbolos.AddToken(token);
+	void AddSimbolo(String chave, Descritor descritor){
+		tabelaDeSimbolos.AddSimbolo(chave, descritor);
 	}
-	
-	
 }

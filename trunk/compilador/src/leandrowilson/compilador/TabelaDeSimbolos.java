@@ -5,21 +5,8 @@ public class TabelaDeSimbolos extends Hashtable{
 
 	Hashtable table = new Hashtable();
 	
-	void AddToken(Token token){
-		switch (token.tipo){
-		case ID:
-			break;
-			
-		case STRING:
-			break;
-			
-		case NUMERO:
-			break;
-			
-		default:
-			//ERRO
-			break;
-		}
+	public void AddSimbolo(String chave, Descritor descritor) {
+		table.put(chave, descritor);
 	}
 	
 	
