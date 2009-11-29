@@ -7,6 +7,7 @@ public abstract class Maquina {
 	Integer[][] tabelaTransicao ; //Tabela de Transicao de Estados
 	TipoMaquina[][] tabelaTransicaoMaquinas;
 	Boolean[][] tabelaNovaMaquina;
+	Integer[][] tabelaTransicaoSemantica;
 	
 	public Integer  QUANTIDADE_DE_TIPOTOKENS = TipoToken.tamanho();
 	public final Integer ESTADO_ERRO_SINTATICO = 999999;
@@ -40,22 +41,24 @@ public abstract class Maquina {
 		tabelaTransicao = new Integer[quantidadeDeEstados][QUANTIDADE_DE_TIPOTOKENS];
 		tabelaTransicaoMaquinas = new TipoMaquina[quantidadeDeEstados][QUANTIDADE_DE_TIPOTOKENS];
 		tabelaNovaMaquina = new Boolean[quantidadeDeEstados][QUANTIDADE_DE_TIPOTOKENS];
+		tabelaTransicaoSemantica = new Integer[quantidadeDeEstados][QUANTIDADE_DE_TIPOTOKENS];
 		
 		for (int k =0;k<quantidadeDeEstados;k++){
 			for (int j=0;j<QUANTIDADE_DE_TIPOTOKENS;j++){
 				tabelaTransicao[k][j] = ESTADO_ERRO_SINTATICO;
 				tabelaTransicaoMaquinas[k][j] = tipoMaquina;
 				tabelaNovaMaquina[k][j] = false;
+				tabelaTransicaoSemantica[k][j] =-1;
 			}
 		}
 		List transicoes = Util.obterTransicoes(strTransicoes);
 		for(int i=0;i<transicoes.tamanho;i++){
 			TransicaoSintatica t = (TransicaoSintatica) transicoes.get(i);
 			if (t.transicaoParaMaquina){
-				carregarEntradasDeSubmaquina(t.estadoInicial, t.maquina, t.proximoEstado);
+				carregarEntradasDeSubmaquina(t.estadoInicial, t.maquina, t.proximoEstado,t.id);
 			}
 			else{
-				carregarEntradaNaTabelaDeTransicao(t.estadoInicial, t.token, t.proximoEstado, tipoMaquina, false);
+				carregarEntradaNaTabelaDeTransicao(t.estadoInicial, t.token, t.proximoEstado, tipoMaquina, false,t.id);
 			}
 		}
 	}
@@ -65,20 +68,25 @@ public abstract class Maquina {
 //		inicializarMaquina(quantidadeDeEstados, estadoInicial, estadosFinais,strTransicoes);
 //		
 //	}
+	public Integer transSemantica(Integer estadoAtual, Token token){
+		return tabelaTransicaoSemantica[estadoAtual][token.tipo.valor()];
+	}
 	
 	public Boolean estadoErro(Integer estado){
 		return estado==ESTADO_ERRO_SINTATICO;
 		
 	}
-	public void carregarEntradaNaTabelaDeTransicao(Integer estadoAtual, TipoToken token,Integer proximoEstado, TipoMaquina proximaMaquina, boolean chamaNovaMaquina) {
+	public void carregarEntradaNaTabelaDeTransicao(Integer estadoAtual, TipoToken token,Integer proximoEstado, TipoMaquina proximaMaquina, boolean chamaNovaMaquina,Integer transicaoSemantica) {
 		tabelaTransicao[estadoAtual][token.valor()]= proximoEstado;
 		tabelaTransicaoMaquinas[estadoAtual][token.valor()]= proximaMaquina;
 		tabelaNovaMaquina[estadoAtual][token.valor()]=chamaNovaMaquina;
+		tabelaTransicaoSemantica[estadoAtual][token.valor()]=transicaoSemantica;
+		
 	}
-	public void carregarEntradasDeSubmaquina(Integer estadoAtual, TipoMaquina maquina,Integer proximoEstado) {
+	public void carregarEntradasDeSubmaquina(Integer estadoAtual, TipoMaquina maquina,Integer proximoEstado, Integer id) {
 		TipoToken[] first = maquina.first();
 		for (int i = 0;i<first.length;i++){
-			carregarEntradaNaTabelaDeTransicao(estadoAtual, first[i], proximoEstado,maquina,true);
+			carregarEntradaNaTabelaDeTransicao(estadoAtual, first[i], proximoEstado,maquina,true,id);
 		}
 		
 	}
