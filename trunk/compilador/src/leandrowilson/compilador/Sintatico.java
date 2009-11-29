@@ -25,6 +25,9 @@ public class Sintatico {
 		return erros;
 	}
 	public Boolean executa(){
+		Escopo escopoAtual = new Escopo();
+		ElementoSemantico elSemantico = new ElementoSemantico();
+		Semantico semantico = new Semantico();
 		PilhaSintatico pilhaSintatico = new PilhaSintatico();
 		Integer estadoAtual=0;
 		Integer proximoEstado =0;
