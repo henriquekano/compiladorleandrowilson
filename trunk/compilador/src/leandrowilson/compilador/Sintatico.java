@@ -99,7 +99,6 @@ public class Sintatico {
 					novaMaquina 	= maquinaExpString.novaMaquina(estadoAtual, tokemAtual);
 					retornaMaquina 	= maquinaExpString.retornaMaquina(estadoAtual,tokemAtual);
 					break;
-				
 			}
 			if (novaMaquina){
 				pilhaSintatico.push(proximoEstado,maquinaAtual);

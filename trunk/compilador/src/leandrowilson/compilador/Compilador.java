@@ -22,7 +22,8 @@ public class Compilador {
 		//nomeDoArquivo = scanner.next();
 //		nomeDoArquivo = "c:\\teste.txt";
 //		nomeDoArquivo = "c:\\teste_reservadas.txt";
-		nomeDoArquivo = "c:\\testePrograma.txt";
+//		nomeDoArquivo = "c:\\testePrograma.txt";
+		nomeDoArquivo = "c:\\testeSemantico.txt";
 		System.out.println("Lendo arquivo:"+nomeDoArquivo);
 		nomeDoArquivo = nomeDoArquivo.replace("\\", "\\\\");
 	    System.out.println("Lendo arquivo:"+nomeDoArquivo);
