@@ -3,21 +3,21 @@ package leandrowilson.compilador;
 import java.util.Stack;
 
 public class PilhaSemantico{
-	Stack<ElementoSemantico> pilha = new Stack<ElementoSemantico>();
+	Stack<Token> pilha = new Stack<Token>();
 	
 	public boolean isEmpty() {
 		return pilha.isEmpty();
 	}
 
-	public void push(ElementoSemantico elSemantico) {
-		pilha.push(elSemantico);
+	public void push(Token token) {
+		pilha.push(token);
 	}
 
-	public ElementoSemantico pop() {
+	public Token pop() {
 		return pilha.pop();
 	}
 	
-	public ElementoSemantico peek(){
+	public Token peek(){
 		return pilha.peek();
 	}
 }
