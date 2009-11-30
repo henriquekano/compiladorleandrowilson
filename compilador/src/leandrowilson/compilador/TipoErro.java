@@ -1,6 +1,7 @@
 package leandrowilson.compilador;
 
 public enum TipoErro {
+	LEXICO("Erro Lexico"),
 	SINTATICO("Erro sintático"), 
 	SINTATICO_FIMDEPILHA_ANTES_DO_FIM_DOS_TOKENS("Erro Sintático - Pilha Sintática esvaziada antes do fim dos tokens"), 
 	SINTATICO_FIMDETOKENS_ANTES_DO_FIM_DA_PILHA("Erro Sintático - Fim de tokens sem esvaziar a pilha sintática - Esqueceu de algo no fim do código?Parece meio incompleto."), 
