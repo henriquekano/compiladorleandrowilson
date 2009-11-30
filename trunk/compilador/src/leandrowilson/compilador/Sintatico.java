@@ -48,7 +48,6 @@ public class Sintatico {
 		
 		
 		while(!pilhaSintatico.isEmpty()){
-			Util.Log("Maquina:"+maquinaAtual.toString()+"  Estado:"+estadoAtual.toString()+" Token:<"+tokemAtual.tipo.toString()+","+tokemAtual.valor+">");
 			
 			switch (maquinaAtual){
 				case PROGRAMA:
@@ -122,6 +121,11 @@ public class Sintatico {
 					transicaoSemantica= maquinaExpString.transSemantica(estadoAtual,tokemAtual);
 					break;
 			}
+			Util.Log("Maquina:"+maquinaAtual.toString()+"  Estado:"+estadoAtual.toString()+" Token:<"+tokemAtual.tipo.toString()+","+tokemAtual.valor+">");
+			elSemantico = new ElementoSemantico(escopoAtual, maquinaAtual, transicaoSemantica, pilhaSemantico,tokemAtual);
+			elSemantico = semantico.analisa(elSemantico);
+			escopoAtual = elSemantico.escopo;
+			pilhaSemantico = elSemantico.pilhaSemantico;
 			if (novaMaquina){
 				pilhaSintatico.push(proximoEstado,maquinaAtual);
 				maquinaAtual = proximaMaquina;
@@ -135,12 +139,13 @@ public class Sintatico {
 			else{
 				estadoAtual = proximoEstado;
 				maquinaAtual = proximaMaquina;
-				tokemAtual= proximoTokem();
+				try {
+					tokemAtual= proximoTokem();
+				} catch (Exception e) {
+					return false;
+				}
 			}
-			elSemantico = new ElementoSemantico(escopoAtual, maquinaAtual, transicaoSemantica, pilhaSemantico,tokemAtual);
-			elSemantico = semantico.analisa(elSemantico);
-			escopoAtual = elSemantico.escopo;
-			pilhaSemantico = elSemantico.pilhaSemantico;
+			
 		}
 		if (!fimDosTokens()){
 			erros.add(new Erro(TipoErro.SINTATICO_FIMDEPILHA_ANTES_DO_FIM_DOS_TOKENS,tokemAtual));

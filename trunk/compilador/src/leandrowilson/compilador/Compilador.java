@@ -30,10 +30,18 @@ public class Compilador {
 //	    testalexico(nomeDoArquivo);
 		sintatico = new Sintatico(lex.obterListaDeTokens(nomeDoArquivo));
 		if (sintatico.executa()){
-			Util.Log("Sintatico finalizado com sucesso!");
+			System.out.println("Sintatico finalizado com sucesso!");
 		}
 		else{
-			Util.Log("Sintatico finalizado com ERRO!");
+			System.out.println("Sintatico finalizado com ERRO!");
+			printErrorList(sintatico.getErros());
+		}
+	}
+	private static void printErrorList(List erros) {
+		Erro erro =null;
+		for(int i =0;i<erros.tamanho;i++){
+			erro =(Erro)erros.get(i);
+			System.out.println(erro.tipo.mensagem+" Token:<"+erro.token.tipo.toString()+","+erro.token.valor+">"+" Linha:"+((erro.token.linha!=null)?erro.token.linha.toString():"") );
 		}
 	}
 	private static void testalexico(String nomeDoArquivo) {
