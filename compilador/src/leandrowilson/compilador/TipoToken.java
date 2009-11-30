@@ -217,5 +217,11 @@ public enum TipoToken {
 		// TODO Auto-generated method stub
 		return false;
 	}
+	public boolean ehTipoPrimitivo() {
+		return (this.equals(TipoToken.PR_INT)||
+				this.equals(TipoToken.PR_STRING) ||
+				this.equals(TipoToken.PR_BOOLEAN)||
+				this.equals(TipoToken.PR_FLOAT ));
+	}
 
 }
