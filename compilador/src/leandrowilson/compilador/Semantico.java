@@ -37,7 +37,6 @@ public class Semantico {
 					elSemantico.escopo = escopo;
 					break;
 				case 2://(2, declaracao) -> 2
-
 					break;
 				case 3://(2, comando) -> 2
 					break;
@@ -158,7 +157,6 @@ public class Semantico {
 								break;
 							}
 					}
-					
 					
 					break;
 				case 8:	//(2, "identificador") -> 1	
@@ -331,50 +329,210 @@ public class Semantico {
 				break;
 			case EXPRESSAO:
 				switch (transicaoSemantica) {
-				case 0:
-					
-					break;
-
-				default:
-					break;
+					case 0://(0, expbooleana) -> 1
+						break;
+					case 1://(0, exparitmetica) -> 1
+						break;
+					case 2://(0, expstring) -> 1
+						break;
+					case 3://(0, exprelacional) -> 1
+						break;
+					case 4://(0, "callfunc") -> 2
+						break;
+					case 5://(2, "identificador") -> 3
+						break;
+					case 6://(3, "(") -> 4
+						break;
+					case 7://(4, "identificador") -> 5
+						break;
+					case 8://(4, "numero") -> 6
+						break;
+					case 9://(4, "string") -> 6
+						break;
+					case 10://(4, ")") -> 7
+						break;
+					case 11://(5, "[") -> 8
+						break;
+					case 12://(5, ",") -> 9
+						break;
+					case 13://(5, ")") -> 7
+						break;
+					case 14://(6, ",") -> 9
+						break;
+					case 15://(6, ")") -> 7
+						break;
+					case 16://(7, ";") -> 1
+						break;
+					case 17://(8, "identificador") -> 10
+						break;
+					case 18://(8, "inteiro") -> 10
+						break;
+					case 19://(9, "identificador") -> 5
+						break;
+					case 20://(9, "numero") -> 6
+						break;
+					case 21://(9, "string") -> 6
+						break;
+					case 22://(10, "]") -> 5
+						break;
+					default:
+						break;
 				}
 				break;
 			case EXPBOOLEANA:
 				switch (transicaoSemantica) {
-				case 0:
-					
+				case 0://(0, "identificador") -> 1
 					break;
-
+				case 1://(0, "true") -> 2
+					break;
+				case 2://(0, "false") -> 2
+					break;
+				case 3://(0, "(") -> 3
+					break;
+				case 4://(0, "!") -> 4
+					break;
+				case 5://(1, "[") -> 5
+					break;
+				case 6://(1, "|") -> 0
+					break;
+				case 7://(1, "&") -> 0
+					break;
+				case 8://(1, "!=") -> 0
+					break;
+				case 9://(1, "==") -> 0
+					break;
+				case 10://(2, "|") -> 0
+					break;
+				case 11://(2, "&") -> 0
+					break;
+				case 12://(2, "!=") -> 0
+					break;
+				case 13://(2, "==") -> 0
+					break;
+				case 14://(3, expbooleana) -> 6
+					break;
+				case 15://(4, "(") -> 3
+					break;
+				case 16://(5, "identificador") -> 7
+					break;
+				case 17://(5, "inteiro") -> 7
+					break;
+				case 18://(6, ")") -> 2
+					break;
+				case 19://(7, "]") -> 1
+					break;
 				default:
 					break;
 				}
 				break;
 			case EXPRELACIONAL:
 				switch (transicaoSemantica) {
-				case 0:
-					
+				case 0://(0, "identificador") -> 1
 					break;
-
+				case 1://(0, "numero") -> 2
+					break;
+				case 2://(1, "[") -> 3
+					break;
+				case 3://(1, "<") -> 4
+					break;
+				case 4://(1, ">") -> 4
+					break;
+				case 5://(1, "<=") -> 4
+					break;
+				case 6://(1, ">=") -> 4
+					break;
+				case 7://(1, "==") -> 4
+					break;
+				case 8://(1, "!=") -> 4
+					break;
+				case 9://(2, "<") -> 4
+					break;
+				case 10://(2, ">") -> 4
+					break;
+				case 11://(2, "<=") -> 4
+					break;
+				case 12://(2, ">=") -> 4
+					break;
+				case 13://(2, "==") -> 4
+					break;
+				case 14://(2, "!=") -> 4
+					break;
+				case 15://(3, "identificador") -> 7
+					break;
+				case 16://(3, "inteiro") -> 7
+					break;
+				case 17://(4, "identificador") -> 5
+					break;
+				case 18://(4, "numero") -> 6
+					break;
+				case 19://(5, "[") -> 8
+					break;
+				case 20://(7, "]") -> 1
+					break;
+				case 21://(8, "identificador") -> 9
+					break;
+				case 22://(8, "inteiro") -> 9
+					break;
+				case 23://(9, "]") -> 5
+					break;
 				default:
 					break;
 				}
 				break;
 			case EXPARITMETICA:
 				switch (transicaoSemantica) {
-				case 0:
-					
+				case 0://(0, "-") -> 1
 					break;
-
+				case 1://(0, "+") -> 1
+					break;
+				case 2://(1, "identificador") -> 2
+					break;
+				case 3://(1, "numero") -> 3
+					break;
+				case 4://(1, "(") -> 4
+					break;
+				case 5://(2, "-") -> 1
+					break;
+				case 6://(2, "+") -> 1
+					break;
+				case 7://(2, "[") -> 6
+					break;
+				case 8://(2, "/") -> 1
+					break;
+				case 9://(2, "*") -> 1
+					break;
+				case 10://(3, "-") -> 1
+					break;
+				case 11://(3, "+") -> 1
+					break;
+				case 12://(3, "/") -> 1
+					break;
+				case 13://(3, "*") -> 1
+					break;
+				case 14://(4, exparitmetica) -> 5
+					break;
+				case 15://(5, ")") -> 3
+					break;
+				case 16://(6, "identificador") -> 7
+					break;
+				case 17://(6, "inteiro") -> 7
+					break;
+				case 18://(7, "]") -> 2
+					break;
 				default:
 					break;
 				}
 				break;
 			case EXPSTRING:
 				switch (transicaoSemantica) {
-				case 0:
-					
+				case 0://(0, "tipo_string") -> 1
 					break;
-
+				case 1://(1, "+") -> 2
+					break;
+				case 2://(2, "tipo_string") -> 1
+					break;
+				case 3://(2, "identificador") -> 1
+					break;
 				default:
 					break;
 				}
