@@ -8,11 +8,11 @@ public class Descritor {
 	TipoDescritor tipo;
 	String label;
 	Object[] valor;
-	int posicaoInicial;
-	int tamanho;
-	private int[] indicesMaximos;
+	Integer posicaoInicial;
+	Integer tamanho;
+	private Integer[] indicesMaximos;
 	private Descritor[] DescritorStrings;
-	private int indicesMaximosTam;
+	private Integer indicesMaximosTam;
 	
 	//VAL_INT E VAL_BOOL
 	Descritor(Object valor, TipoDescritor tipoDescritor){
@@ -23,7 +23,7 @@ public class Descritor {
 	}
 	
 	//VAL_STRING
-	Descritor(Object[] valor, int tamanho, TipoDescritor tipoDescritor){
+	Descritor(Object[] valor, Integer tamanho, TipoDescritor tipoDescritor){
 		this.tipo = tipoDescritor;
 		this.tamanho = tamanho;
 		this.valor = valor;
@@ -36,14 +36,14 @@ public class Descritor {
 	}
 	
 	//VAR_STRING
-	Descritor(String label, int tamanho, TipoDescritor tipoDescritor){
+	Descritor(String label, Integer tamanho, TipoDescritor tipoDescritor){
 		this.tipo = tipoDescritor;
 		this.label = label;
 		this.tamanho = tamanho;
 	}
 	
 	//VVAR_INT E VVAR_BOOL
-	Descritor(String label, int[] indicesMaximos, int indicesMaximosTam, TipoDescritor tipoDescritor){
+	Descritor(String label, Integer[] indices, TipoDescritor tipoDescritor){
 		this.tipo = tipoDescritor;
 		this.label = label;
 		this.indicesMaximos = indicesMaximos;
@@ -51,7 +51,7 @@ public class Descritor {
 	}
 	
 	//VVAR_STRING
-	Descritor(String label, Descritor[] strings, int[] indicesMaximos, int indicesMaximosTam, TipoDescritor tipoDescritor){
+	Descritor(String label, Descritor[] strings, Integer[] indicesMaximos, Integer indicesMaximosTam, TipoDescritor tipoDescritor){
 		this.tipo = tipoDescritor;
 		this.label = label;
 		this.indicesMaximos = indicesMaximos;
@@ -59,11 +59,11 @@ public class Descritor {
 		this.DescritorStrings = strings;
 	}
 	
-	void AtualizaPosicao(int posicao){
+	void AtualizaPosicao(Integer posicao){
 		this.posicaoInicial = posicao;
 	}
 	
-	void AtualizaEndBool(int posicaoTrue, int posicaoFalse){
+	void AtualizaEndBool(Integer posicaoTrue, Integer posicaoFalse){
 		end_false = posicaoFalse;
 		end_true = posicaoTrue;
 	}
@@ -72,15 +72,15 @@ public class Descritor {
 		return valor;
 	}
 	
-	int GetPosicao(int[] indices){
-		int posicao = posicaoInicial + indicesMaximos[indicesMaximosTam-1];
-		for(int i = indicesMaximosTam-2; i>=0; i--){
+	int GetPosicao(Integer[] indices){
+		Integer posicao = posicaoInicial + indicesMaximos[indicesMaximosTam-1];
+		for(Integer i = indicesMaximosTam-2; i>=0; i--){
 			posicao+=produtorio(i,indicesMaximosTam-1,indicesMaximos);
 		}
 		return posicao;
 	}
 	
-	private int produtorio(int inicio, int fim, int[] vetor){
+	private int produtorio(Integer inicio, Integer fim, Integer[] vetor){
 		int result = 1;
 		for(int i = inicio; i<=fim; i++){
 			result *=vetor[i];
