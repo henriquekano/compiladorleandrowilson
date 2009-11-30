@@ -257,9 +257,42 @@ public class Semantico {
 					Descritor d = pilhaSemantico.pop_Descritor();
 					switch (d.tipo) {
 					case VAL_INT:
-						
 						break;
-
+					case VAL_BOOL:
+						break;
+					case VAL_STRING:
+						break;
+					case VVAR_BOOL:
+						break;
+					case VVAR_INT:
+						break;
+					case VVAR_STRING:
+						break;
+					case VAR_BOOL:
+						break;
+					case VAR_INT:
+						Token t = pilhaSemantico.pop_Token();
+						analisaToken(t, TipoToken.ATRIB);
+						t=pilhaSemantico.pop_Token();
+						
+						List indices = new List();
+						while (!t.tipo.equals(TipoToken.ID)){
+							analisaToken(t, TipoToken.NUMERO);
+							indices.add(new Integer(t.valor));
+							t =pilhaSemantico.pop_Token();
+						}
+						analisaToken(t, TipoToken.ID);
+						String ch=t.valor;
+						Descritor leftDesc = escopo.busca(ch);
+						if (leftDesc.tipo.equals(TipoDescritor.VAR_INT) ||leftDesc.tipo.equals(TipoDescritor.VVAR_INT) ){
+							//gera Codigo LV TMP1 MM leftDesc
+						}
+						else{
+							erros.add(new Erro(TipoErro.SEMANTICO_TIPOS_DE_DADOS_INCOMPATIVEIS,t));
+						}
+						break;
+					case VAR_STRING:
+						break;
 					default:
 						break;
 					}
