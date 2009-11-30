@@ -3,7 +3,7 @@ package leandrowilson.compilador;
 import java.util.Stack;
 
 public class PilhaSemantico{
-	Stack<Token> pilha = new Stack<Token>();
+	Stack<Object> pilha = new Stack<Object>();
 	
 	public boolean isEmpty() {
 		return pilha.isEmpty();
@@ -13,11 +13,15 @@ public class PilhaSemantico{
 		pilha.push(token);
 	}
 
-	public Token pop() {
-		return pilha.pop();
+	public Token pop_Token() {
+		return (Token)pilha.pop();
+	}
+	
+	public Descritor pop_Descritor() {
+		return (Descritor)pilha.pop();
 	}
 	
 	public Token peek(){
-		return pilha.peek();
+		return (Token)pilha.peek();
 	}
 }
