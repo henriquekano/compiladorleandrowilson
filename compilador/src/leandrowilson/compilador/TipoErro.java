@@ -11,7 +11,8 @@ public enum TipoErro {
 	SINTATICO_ESTADO_SINTATICO_INESPERADO("Erro Sintático - Estado sintático inesperado atingido"), 
 	SEMANTICO("Erro Semantico"), 
 	SEMANTICO_REDECALRACAO_DE_VARIAVEL("Erro Semantico - Variavel já foi declarada no escopo"), 
-	SEMANTICO_VARIAVEL_NAO_DECLARADA("Erro Semantico - Variável Não Declarada");
+	SEMANTICO_VARIAVEL_NAO_DECLARADA("Erro Semantico - Variável Não Declarada"), 
+	SEMANTICO_TIPOS_DE_DADOS_INCOMPATIVEIS("Erro Semantico - Tipo de dados incompativeis");
 	
 	public String mensagem;
 	
