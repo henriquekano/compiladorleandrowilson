@@ -42,8 +42,8 @@ public class Semantico {
 					break;
 				case 4://(2, "}") -> 3
 					escopo = escopo.escopoPai;
-					analisaToken(pilhaSemantico.pop(),TipoToken.CHAVE_ABRE);
-					analisaToken(pilhaSemantico.pop(),TipoToken.PR_MAIN);
+					analisaToken(pilhaSemantico.pop_Token(),TipoToken.CHAVE_ABRE);
+					analisaToken(pilhaSemantico.pop_Token(),TipoToken.PR_MAIN);
 					break;
 				case 5://(3, funcao) -> 3
 					break;
@@ -110,11 +110,11 @@ public class Semantico {
 					else{
 						Token t ;
 						List indices = new List();
-						t = pilhaSemantico.pop();
+						t = pilhaSemantico.pop_Token();
 						while (!t.tipo.ehTipoPrimitivo()){
 							analisaToken(t, TipoToken.NUMERO);
 							indices.add(new Integer(t.valor));
-							t = pilhaSemantico.pop();
+							t = pilhaSemantico.pop_Token();
 						}
 						String label = geraLabel(escopo.id_escopo, chave);
 						switch(t.tipo){
@@ -254,6 +254,15 @@ public class Semantico {
 				case 15://(8, "(") -> 10
 					break;
 				case 16://(9, ";") -> 11
+					Descritor d = pilhaSemantico.pop_Descritor();
+					switch (d.tipo) {
+					case VAL_INT:
+						
+						break;
+
+					default:
+						break;
+					}
 					break;
 				case 17://(10, "identificador") -> 12
 					break;
