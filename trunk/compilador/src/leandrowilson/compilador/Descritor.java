@@ -43,10 +43,11 @@ public class Descritor {
 	}
 	
 	//VVAR_INT E VVAR_BOOL
-	Descritor(String label, int[] indices, TipoDescritor tipoDescritor){
+	Descritor(String label, int[] indicesMaximos, int indicesMaximosTam, TipoDescritor tipoDescritor){
 		this.tipo = tipoDescritor;
 		this.label = label;
-		this.indicesMaximos = indices;
+		this.indicesMaximos = indicesMaximos;
+		this.indicesMaximosTam = indicesMaximosTam;
 	}
 	
 	//VVAR_STRING
