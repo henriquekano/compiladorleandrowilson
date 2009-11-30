@@ -234,6 +234,8 @@ public class Semantico {
 				case 6://(1, "[") -> 6
 					break;
 				case 7://(1, "=") -> 7
+					pilhaSemantico.push(token);
+					elSemantico.pilhaSemantico = pilhaSemantico;
 					break;
 				case 8://(2, "(") -> 17
 					break;
