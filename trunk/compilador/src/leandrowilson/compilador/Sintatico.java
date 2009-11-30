@@ -147,6 +147,7 @@ public class Sintatico {
 			}
 			
 		}
+		semantico.geraArquivoMVN();
 		if (!fimDosTokens()){
 			erros.add(new Erro(TipoErro.SINTATICO_FIMDEPILHA_ANTES_DO_FIM_DOS_TOKENS,tokemAtual));
 			return false;

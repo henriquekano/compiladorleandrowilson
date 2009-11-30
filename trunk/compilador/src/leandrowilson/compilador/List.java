@@ -49,6 +49,14 @@ public class List {
 		this.tamanho = this.elementos.length;
 		
 	}
+
+	public Integer[] toIntArray() {
+		Integer[] intVector = new Integer[this.tamanho];
+		for (int i =0;i<tamanho;i++){
+			intVector[i] = (Integer)this.get(i);
+		}
+		return intVector;
+	}
 	
 	
 }

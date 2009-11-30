@@ -1,5 +1,13 @@
 package leandrowilson.compilador;
 
 public enum TipoDescritor {
-	DESC_NUMERO, DESC_STRING, DESC_ID, DESC_BOOLEAN;
+	VAL_STRING,
+	VAL_BOOL,
+	VAL_INT,
+	VAR_STRING,
+	VAR_BOOL,
+	VAR_INT,
+	VVAR_STRING,
+	VVAR_BOOL,
+	VVAR_INT;
 }
