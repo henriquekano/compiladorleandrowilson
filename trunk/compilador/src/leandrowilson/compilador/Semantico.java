@@ -437,50 +437,93 @@ public class Semantico {
 			case EXPRELACIONAL:
 				switch (transicaoSemantica) {
 				case 0://(0, "identificador") -> 1
+					pilhaSemantico.push(token);
+					elSemantico.pilhaSemantico = pilhaSemantico;
 					break;
 				case 1://(0, "numero") -> 2
+					pilhaSemantico.push(token);
+					elSemantico.pilhaSemantico = pilhaSemantico;
 					break;
 				case 2://(1, "[") -> 3
 					break;
 				case 3://(1, "<") -> 4
+					pilhaSemantico.push(token);
+					elSemantico.pilhaSemantico = pilhaSemantico;
 					break;
 				case 4://(1, ">") -> 4
+					pilhaSemantico.push(token);
+					elSemantico.pilhaSemantico = pilhaSemantico;
 					break;
 				case 5://(1, "<=") -> 4
+					pilhaSemantico.push(token);
+					elSemantico.pilhaSemantico = pilhaSemantico;
 					break;
 				case 6://(1, ">=") -> 4
+					pilhaSemantico.push(token);
+					elSemantico.pilhaSemantico = pilhaSemantico;
 					break;
 				case 7://(1, "==") -> 4
+					pilhaSemantico.push(token);
+					elSemantico.pilhaSemantico = pilhaSemantico;
 					break;
 				case 8://(1, "!=") -> 4
+					pilhaSemantico.push(token);
+					elSemantico.pilhaSemantico = pilhaSemantico;
 					break;
 				case 9://(2, "<") -> 4
+					pilhaSemantico.push(token);
+					elSemantico.pilhaSemantico = pilhaSemantico;
 					break;
 				case 10://(2, ">") -> 4
+					pilhaSemantico.push(token);
+					elSemantico.pilhaSemantico = pilhaSemantico;
 					break;
 				case 11://(2, "<=") -> 4
+					pilhaSemantico.push(token);
+					elSemantico.pilhaSemantico = pilhaSemantico;
 					break;
 				case 12://(2, ">=") -> 4
+					pilhaSemantico.push(token);
+					elSemantico.pilhaSemantico = pilhaSemantico;
 					break;
 				case 13://(2, "==") -> 4
+					pilhaSemantico.push(token);
+					elSemantico.pilhaSemantico = pilhaSemantico;
 					break;
 				case 14://(2, "!=") -> 4
+					pilhaSemantico.push(token);
+					elSemantico.pilhaSemantico = pilhaSemantico;
 					break;
 				case 15://(3, "identificador") -> 7
+					pilhaSemantico.push(token);
+					elSemantico.pilhaSemantico = pilhaSemantico;
 					break;
 				case 16://(3, "inteiro") -> 7
+					pilhaSemantico.push(token);
+					elSemantico.pilhaSemantico = pilhaSemantico;
 					break;
 				case 17://(4, "identificador") -> 5
+					pilhaSemantico.push(token);
+					elSemantico.pilhaSemantico = pilhaSemantico;
 					break;
 				case 18://(4, "numero") -> 6
+					pilhaSemantico.push(token);
+					elSemantico.pilhaSemantico = pilhaSemantico;
 					break;
 				case 19://(5, "[") -> 8
+					if(!token.tipo.equals(TipoToken.COLCHETE_ABRE)){
+						//ACABOU!
+					}
 					break;
 				case 20://(7, "]") -> 1
 					break;
 				case 21://(8, "identificador") -> 9
+//					pilhaSemantico.push(token);
+//					elSemantico.pilhaSemantico = pilhaSemantico;
 					break;
 				case 22://(8, "inteiro") -> 9
+					pilhaSemantico.push(token);
+					elSemantico.pilhaSemantico = pilhaSemantico;
 					break;
 				case 23://(9, "]") -> 5
 					break;
@@ -491,40 +534,70 @@ public class Semantico {
 			case EXPARITMETICA:
 				switch (transicaoSemantica) {
 				case 0://(0, "-") -> 1
+					pilhaSemantico.push(token);
+					elSemantico.pilhaSemantico = pilhaSemantico;
 					break;
 				case 1://(0, "+") -> 1
 					break;
 				case 2://(1, "identificador") -> 2
+					pilhaSemantico.push(token);
+					elSemantico.pilhaSemantico = pilhaSemantico;
 					break;
 				case 3://(1, "numero") -> 3
+					pilhaSemantico.push(token);
+					elSemantico.pilhaSemantico = pilhaSemantico;
 					break;
 				case 4://(1, "(") -> 4
+					pilhaSemantico.push(token);
+					elSemantico.pilhaSemantico = pilhaSemantico;
 					break;
+					
+				//ACABA NO DOIS!!!!!
 				case 5://(2, "-") -> 1
+					pilhaSemantico.push(token);
+					elSemantico.pilhaSemantico = pilhaSemantico;
 					break;
 				case 6://(2, "+") -> 1
+					pilhaSemantico.push(token);
+					elSemantico.pilhaSemantico = pilhaSemantico;
 					break;
 				case 7://(2, "[") -> 6
 					break;
 				case 8://(2, "/") -> 1
+					pilhaSemantico.push(token);
+					elSemantico.pilhaSemantico = pilhaSemantico;
 					break;
 				case 9://(2, "*") -> 1
+					pilhaSemantico.push(token);
+					elSemantico.pilhaSemantico = pilhaSemantico;
 					break;
 				case 10://(3, "-") -> 1
+					pilhaSemantico.push(token);
+					elSemantico.pilhaSemantico = pilhaSemantico;
 					break;
 				case 11://(3, "+") -> 1
+					pilhaSemantico.push(token);
+					elSemantico.pilhaSemantico = pilhaSemantico;
 					break;
 				case 12://(3, "/") -> 1
+					pilhaSemantico.push(token);
+					elSemantico.pilhaSemantico = pilhaSemantico;
 					break;
 				case 13://(3, "*") -> 1
+					pilhaSemantico.push(token);
+					elSemantico.pilhaSemantico = pilhaSemantico;
 					break;
 				case 14://(4, exparitmetica) -> 5
 					break;
 				case 15://(5, ")") -> 3
+					pilhaSemantico.push(token);
+					elSemantico.pilhaSemantico = pilhaSemantico;
 					break;
 				case 16://(6, "identificador") -> 7
 					break;
 				case 17://(6, "inteiro") -> 7
+					pilhaSemantico.push(token);
+					elSemantico.pilhaSemantico = pilhaSemantico;
 					break;
 				case 18://(7, "]") -> 2
 					break;
@@ -532,15 +605,26 @@ public class Semantico {
 					break;
 				}
 				break;
+				
 			case EXPSTRING:
 				switch (transicaoSemantica) {
 				case 0://(0, "tipo_string") -> 1
+					pilhaSemantico.push(token);
+					elSemantico.pilhaSemantico = pilhaSemantico;
 					break;
 				case 1://(1, "+") -> 2
+					pilhaSemantico.push(token);
+					elSemantico.pilhaSemantico = pilhaSemantico;
 					break;
 				case 2://(2, "tipo_string") -> 1
+					pilhaSemantico.push(token);
+					elSemantico.pilhaSemantico = pilhaSemantico;
+					//ACABOU!!!
 					break;
 				case 3://(2, "identificador") -> 1
+					pilhaSemantico.push(token);
+					elSemantico.pilhaSemantico = pilhaSemantico;
+					//ACABOU!!!
 					break;
 				default:
 					break;
