@@ -43,8 +43,8 @@ public class Semantico {
 					break;
 				case 4://(2, "}") -> 3
 					escopo = escopo.escopoPai;
-					analisaToken(pilhaSemantico.pop().tipo,TipoToken.CHAVE_ABRE);
-					analisaToken(pilhaSemantico.pop().tipo,TipoToken.PR_MAIN);
+					analisaToken(pilhaSemantico.pop(),TipoToken.CHAVE_ABRE);
+					analisaToken(pilhaSemantico.pop(),TipoToken.PR_MAIN);
 					break;
 				case 5://(3, funcao) -> 3
 					break;
@@ -106,14 +106,14 @@ public class Semantico {
 				case 7:	//(1, "identificador") -> 5
 					String chave = token.valor;
 					if (escopo.tabelaDeSimbolos.containsKey(chave)){//verifica se a chave ja nao foi inserida na tabela corrente
-						//TODO ERRO SEMANTICO - VARIAVEL JA DECLARADA
+						erroSemantico_redeclaracaoDeVariavel(token);
 					}
 					else{
 						Token t ;
 						List indices = new List();
 						t = pilhaSemantico.pop();
 						while (!t.tipo.ehTipoPrimitivo()){
-							analisaToken(t.tipo, TipoToken.NUMERO);
+							analisaToken(t, TipoToken.NUMERO);
 							indices.add(new Integer(t.valor));
 							t = pilhaSemantico.pop();
 						}
@@ -211,10 +211,118 @@ public class Semantico {
 				break;
 			case COMANDO:
 				switch (transicaoSemantica) {
-				case 0:
-					
+				case 0://(0, "identificador") -> 1
+					String chave = token.valor;
+					if (escopo.busca(chave)==null){
+						erros.add(new Erro(TipoErro.SEMANTICO_VARIAVEL_NAO_DECLARADA,token));
+					}
+					else{
+						pilhaSemantico.push(token);
+						elSemantico.pilhaSemantico = pilhaSemantico;
+					}
 					break;
-
+				case 1://(0, "if") -> 2
+					break;
+				case 2://(0, "while") -> 3
+					break;
+				case 3://(0, "input") -> 4
+					break;
+				case 4://(0, "output") -> 4
+					break;
+				case 5://(0, "callproc") -> 5
+					break;
+				case 6://(1, "[") -> 6
+					break;
+				case 7://(1, "=") -> 7
+					break;
+				case 8://(2, "(") -> 17
+					break;
+				case 9://(3, "(") -> 26
+					break;
+				case 10://(4, "identificador") -> 25
+					break;
+				case 11://(5, "identificador") -> 8
+					break;
+				case 12://(6, "identificador") -> 15
+					break;
+				case 13://(6, "inteiro") -> 15
+					pilhaSemantico.push(token);
+					elSemantico.pilhaSemantico = pilhaSemantico;
+					break;
+				case 14://(7, expressao) -> 9
+					break;
+				case 15://(8, "(") -> 10
+					break;
+				case 16://(9, ";") -> 11
+					break;
+				case 17://(10, "identificador") -> 12
+					break;
+				case 18://(10, ")") -> 9
+					break;
+				case 19://(10, "numero") -> 13
+					break;
+				case 20://(10, "string") -> 13
+					break;
+				case 21://(12, "[") -> 16
+					break;
+				case 22://(12, ")") -> 9
+					break;
+				case 23://(12, ",") -> 14
+					break;
+				case 24://(13, ")") -> 9
+					break;
+				case 25://(13, ",") -> 14
+					break;
+				case 26://(14, "identificador") -> 12
+					break;
+				case 27://(14, "numero") -> 13
+					break;
+				case 28://(14, "string") -> 13
+					break;
+				case 29://(15, "]") -> 1
+					break;
+				case 30://(16, "identificador") -> 18
+					break;
+				case 31://(16, "inteiro") -> 18
+					break;
+				case 32://(17, expbooleana) -> 19
+					break;
+				case 33://(18, "]") -> 12
+					break;
+				case 34://(19, ")") -> 20
+					break;
+				case 35://(20, "{") -> 21
+					break;
+				case 36://(21, declaracao) -> 21
+					break;
+				case 37://(21, comando) -> 21
+					break;
+				case 38://(21, "}") -> 22
+					break;
+				case 39://(22, "else") -> 23
+					break;
+				case 40://(23, "{") -> 24
+					break;
+				case 41://(24, declaracao) -> 24
+					break;
+				case 42://(24, comando) -> 24
+					break;
+				case 43://(24, "}") -> 11
+					break;
+				case 44://(25, "[") -> 27
+					break;
+				case 45://(25, ";") -> 11
+					break;
+				case 46://(26, expbooleana) -> 28
+					break;
+				case 47://(27, "identificador") -> 29
+					break;
+				case 48://(27, "inteiro") -> 29
+					break;
+				case 49://(28, ")") -> 23
+					break;
+				case 50://(29, "]") -> 25
+					break;
 				default:
 					break;
 				}
@@ -274,6 +382,12 @@ public class Semantico {
 		return elSemantico;
 	}
 
+	private void erroSemantico_redeclaracaoDeVariavel(Token token) {
+		erros.add(new Erro(TipoErro.SEMANTICO_REDECALRACAO_DE_VARIAVEL,token));
+		Util.Log("ErroSemantico-RedeclaracaoDe Variavel");
+		
+	}
+
 	private Integer reservaEspacoDeMemoria_VVAR_BOOL(String label,
 			Integer tamanho) {
 		ponteiroAreaDeDados++;
@@ -317,13 +431,14 @@ public class Semantico {
 		return "E"+ idEscopo.toString()+"_"+chave;
 	}
 
-	private void analisaToken(TipoToken lido, TipoToken esperado) {
-		if (!lido.equals(esperado)){
-			erroSemantico(lido,esperado);
+	private void analisaToken(Token lido, TipoToken esperado) {
+		if (!lido.tipo.equals(esperado)){
+			erroSemantico(lido);
 		}
 	}
 
-	private void erroSemantico(TipoToken lido, TipoToken esperado) {
+	private void erroSemantico(Token token) {
+		erros.add(new Erro(TipoErro.SEMANTICO,token));
 		Util.Log("ErroSemantico");	
 	}
 

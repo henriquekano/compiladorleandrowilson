@@ -8,7 +8,10 @@ public enum TipoErro {
 	LEXICO_ERRO_DE_ES("Erro Léxico - Erro de E/S"), 
 	LEXICO_ERRO_DE_LEITURA_DE_ARQUIVO("Erro na leitura de caracter do arquivo"), 
 	SEMANTICO_TRANS_SEMANTICA_INESPERADA("Erro Semântico - Transicão semantica inesperada"), 
-	SINTATICO_ESTADO_SINTATICO_INESPERADO("Erro Sintático - Estado sintático inesperado atingido");
+	SINTATICO_ESTADO_SINTATICO_INESPERADO("Erro Sintático - Estado sintático inesperado atingido"), 
+	SEMANTICO("Erro Semantico"), 
+	SEMANTICO_REDECALRACAO_DE_VARIAVEL("Erro Semantico - Variavel já foi declarada no escopo"), 
+	SEMANTICO_VARIAVEL_NAO_DECLARADA("Erro Semantico - Variável Não Declarada");
 	
 	public String mensagem;
 	
