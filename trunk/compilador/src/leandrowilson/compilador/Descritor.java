@@ -78,7 +78,6 @@ public class Descritor {
 			posicao+=produtorio(i,indicesMaximosTam-1,indicesMaximos);
 		}
 		return posicao;
-		
 	}
 	
 	private int produtorio(int inicio, int fim, int[] vetor){
