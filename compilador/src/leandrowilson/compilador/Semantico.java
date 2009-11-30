@@ -1,9 +1,14 @@
 package leandrowilson.compilador;
 
+import javax.swing.text.Position;
+
 public class Semantico {
 	Integer contadorEscopo =0;
 	List erros = new List();
 	StringBuffer codigoMVN = new StringBuffer();
+	Integer inicioAreaDeDados = 1000;
+	Integer ponteiroAreaDeDados = inicioAreaDeDados-1;
+	List reservasDeMemoria = new List();
 	
 	public ElementoSemantico analisa(ElementoSemantico elSemantico) {
 		Escopo escopo = elSemantico.escopo;
@@ -100,25 +105,61 @@ public class Semantico {
 					break;
 				case 7:	//(1, "identificador") -> 5
 					String chave = token.valor;
-					Token t ;
-					List indices = new List();
-					t = pilhaSemantico.pop();
-					while (!t.tipo.ehTipoPrimitivo()){
-						analisaToken(t.tipo, TipoToken.NUMERO);
-						indices.add(new Integer(t.valor));
-						t = pilhaSemantico.pop();
+					if (escopo.tabelaDeSimbolos.containsKey(chave)){//verifica se a chave ja nao foi inserida na tabela corrente
+						//TODO ERRO SEMANTICO - VARIAVEL JA DECLARADA
 					}
-					switch(t.tipo){
-						case PR_INT:
-//							escopo.AddSimbolo(chave, new Descritor(geraLabel(escopo.id_escopo,chave),))
-							break;
-						case PR_BOOLEAN:
-							
-							break;
-						case PR_STRING:
-							
-							break;
+					else{
+						Token t ;
+						List indices = new List();
+						t = pilhaSemantico.pop();
+						while (!t.tipo.ehTipoPrimitivo()){
+							analisaToken(t.tipo, TipoToken.NUMERO);
+							indices.add(new Integer(t.valor));
+							t = pilhaSemantico.pop();
 						}
+						String label = geraLabel(escopo.id_escopo, chave);
+						switch(t.tipo){
+							case PR_INT:
+								if (indices.tamanho==0){
+									Descritor descritor = new Descritor(label, TipoDescritor.VAR_INT);
+									escopo.AddSimbolo(chave,descritor);
+									Descritor d = escopo.busca(chave);
+									d.posicaoInicial = reservaEspacoDeMemoria_VAR_INT(label);
+									escopo.AddSimbolo(chave, d);
+								}
+								else{
+									Integer[] indices_vetor = indices.toIntArray();
+									Descritor descritor = new Descritor(label,indices_vetor,TipoDescritor.VVAR_INT);
+									escopo.AddSimbolo(chave,descritor);
+									Descritor d = escopo.busca(chave);
+									d.posicaoInicial = reservaEspacoDeMemoria_VVAR_INT(label,produtorio(indices_vetor));
+									escopo.AddSimbolo(chave, d);
+								}							
+								break;
+							case PR_BOOLEAN:
+								if (indices.tamanho==0){
+									Descritor descritor = new Descritor(label, TipoDescritor.VAR_BOOL);
+									escopo.AddSimbolo(chave,descritor);
+									Descritor d = escopo.busca(chave);
+									d.posicaoInicial = reservaEspacoDeMemoria_VAR_BOOL(label);
+									escopo.AddSimbolo(chave, d);
+								}
+								else{
+									Integer[] indices_vetor = indices.toIntArray();
+									Descritor descritor = new Descritor(label,indices_vetor,TipoDescritor.VVAR_BOOL);
+									escopo.AddSimbolo(chave,descritor);
+									Descritor d = escopo.busca(chave);
+									d.posicaoInicial = reservaEspacoDeMemoria_VVAR_BOOL(label,produtorio(indices_vetor));
+									escopo.AddSimbolo(chave, d);
+								}			
+								break;
+							case PR_STRING:
+								
+								break;
+							}
+					}
+					
+					
 					break;
 				case 8:	//(2, "identificador") -> 1	
 					//TODO NAO TRATADO AINDA - DECLARE
@@ -233,6 +274,45 @@ public class Semantico {
 		return elSemantico;
 	}
 
+	private Integer reservaEspacoDeMemoria_VVAR_BOOL(String label,
+			Integer tamanho) {
+		ponteiroAreaDeDados++;
+		Integer posicaoInicial= ponteiroAreaDeDados;
+		for(Integer i=0;i<tamanho;i++){
+			reservasDeMemoria.add(label+"_"+i.toString());
+		}
+		return posicaoInicial;
+	}
+
+	private Integer reservaEspacoDeMemoria_VAR_BOOL(String label) {
+		ponteiroAreaDeDados++;
+		reservasDeMemoria.add(label);
+		return ponteiroAreaDeDados;
+	}
+
+	private Integer reservaEspacoDeMemoria_VVAR_INT(String label,Integer tamanho) {
+		ponteiroAreaDeDados++;
+		Integer posicaoInicial= ponteiroAreaDeDados;
+		for(Integer i=0;i<tamanho;i++){
+			reservasDeMemoria.add(label+"_"+i.toString());
+		}
+		return posicaoInicial;
+	}
+
+	private Integer produtorio(Integer[] vetor) {
+		Integer resultado = 1;
+		for(int i=0;i<vetor.length;i++){
+			resultado=resultado*vetor[i];
+		}
+		return resultado;
+	}
+
+	private Integer reservaEspacoDeMemoria_VAR_INT(String label) {
+		ponteiroAreaDeDados++;
+		reservasDeMemoria.add(label);
+		return ponteiroAreaDeDados;
+	}
+
 	private String geraLabel(Integer idEscopo, String chave) {
 		return "E"+ idEscopo.toString()+"_"+chave;
 	}
@@ -244,8 +324,7 @@ public class Semantico {
 	}
 
 	private void erroSemantico(TipoToken lido, TipoToken esperado) {
-		Util.Log("ErroSemantico");
-		
+		Util.Log("ErroSemantico");	
 	}
 
 	private void geraCodigo_inicial() {
@@ -258,6 +337,23 @@ public class Semantico {
 	private void logCodigo() {
 		Util.Log(codigoMVN.toString());
 		
+	}
+
+	public void geraArquivoMVN() {
+		codigoMVN.append(geraCodigoAreaDeDados());
+		String finalCode = codigoMVN.toString();
+		Util.Log("Código final Gerado:\n"+ finalCode);
+	}
+
+	private String geraCodigoAreaDeDados() {
+		StringBuffer code = new StringBuffer();
+		code.append("\n&/");
+		code.append(inicioAreaDeDados.toString()+"\n");
+		
+		for (int i=0;i<reservasDeMemoria.tamanho;i++){
+			code.append((String)reservasDeMemoria.get(i)+" K /0000\n");
+		}
+		return code.toString();
 	}
 
 }
