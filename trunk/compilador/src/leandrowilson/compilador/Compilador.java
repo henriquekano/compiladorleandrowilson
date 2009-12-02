@@ -19,11 +19,11 @@ public class Compilador {
 		System.out.println("Digite o nome do arquivo que deseja compilar:");
 		
 		
-		//nomeDoArquivo = scanner.next();
+		nomeDoArquivo = scanner.next();
 //		nomeDoArquivo = "c:\\teste.txt";
 //		nomeDoArquivo = "c:\\teste_reservadas.txt";
 //		nomeDoArquivo = "c:\\testePrograma.txt";
-		nomeDoArquivo = "c:\\testeSemantico.txt";
+//		nomeDoArquivo = "c:\\testeSemantico.txt";
 		System.out.println("Lendo arquivo:"+nomeDoArquivo);
 		nomeDoArquivo = nomeDoArquivo.replace("\\", "\\\\");
 	    System.out.println("Lendo arquivo:"+nomeDoArquivo);

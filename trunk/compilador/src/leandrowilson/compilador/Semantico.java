@@ -108,7 +108,7 @@ public class Semantico {
 						erroSemantico_redeclaracaoDeVariavel(token);
 					}
 					else{
-						Token t ;
+						Token t;
 						List indices = new List();
 						t = pilhaSemantico.pop_Token();
 						while (!t.tipo.ehTipoPrimitivo()){
