@@ -1,0 +1,10 @@
+main{
+	int a;
+	int b;
+	int[5] c;
+	boolean booo;
+	boolean[2][5][6] baaa;
+	a=+b;
+	a=-b;
+	a=+3;
+	}
