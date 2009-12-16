@@ -4,6 +4,7 @@ public class Sintatico {
 	List listaDeTokens;
 	List erros = new List();
 	Integer ponteiroTokem = -1;
+	Semantico semantico = new Semantico();
 	
 	//Maquinas De Analise Sintatica/Semantica
 	MaquinaPrograma maquinaPrograma = new MaquinaPrograma();
@@ -29,7 +30,7 @@ public class Sintatico {
 		ElementoSemantico elSemantico = new ElementoSemantico();
 		Integer transicaoSemantica = null;
 		PilhaSemantico pilhaSemantico = new PilhaSemantico();
-		Semantico semantico = new Semantico();
+		
 		PilhaSintatico pilhaSintatico = new PilhaSintatico();
 		Integer estadoAtual=0;
 		Integer proximoEstado =0;
@@ -176,4 +177,7 @@ private Token proximoTokem() throws Exception {
 		}
 		
 	}
+		public String getCodigoFinal() {
+			return semantico.codigoMVN.toString();
+		}
 }
