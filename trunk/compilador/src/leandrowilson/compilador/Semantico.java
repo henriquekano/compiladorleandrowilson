@@ -1,5 +1,8 @@
 package leandrowilson.compilador;
 
+import java.math.BigInteger;
+import java.util.Stack;
+
 import javax.swing.text.Position;
 
 public class Semantico {
@@ -9,6 +12,10 @@ public class Semantico {
 	Integer inicioAreaDeDados = 1000;
 	Integer ponteiroAreaDeDados = inicioAreaDeDados-1;
 	List reservasDeMemoria = new List();
+	List listaDeConstantes = new List();
+	List listaDeValoresDeConstantes = new List();
+	Stack<String> pilhaCodigo = new Stack<String>();
+	Integer tempCounter =0;
 	
 	public ElementoSemantico analisa(ElementoSemantico elSemantico) {
 		Escopo escopo = elSemantico.escopo;
@@ -208,14 +215,18 @@ public class Semantico {
 				}
 				break;
 			case COMANDO:
+				List indices=null;
 				switch (transicaoSemantica) {
 				case 0://(0, "identificador") -> 1
 					String chave = token.valor;
-					if (escopo.busca(chave)==null){
+					Descritor d = escopo.busca(chave);
+					if (d ==null){
 						erros.add(new Erro(TipoErro.SEMANTICO_VARIAVEL_NAO_DECLARADA,token));
 					}
 					else{
-						pilhaSemantico.push(token);
+						pilhaSemantico.push(d);
+						indices = new List();
+						pilhaSemantico.push(indices);
 						elSemantico.pilhaSemantico = pilhaSemantico;
 					}
 					break;
@@ -234,7 +245,19 @@ public class Semantico {
 				case 6://(1, "[") -> 6
 					break;
 				case 7://(1, "=") -> 7
+					
+					indices = pilhaSemantico.pop_List();
+					Descritor left = pilhaSemantico.peek_Descritor();
+					String label =null;
+					if (indices.tamanho >0){
+						Integer pos = left.GetPosicao(indices.toIntArray());
+						label = left.label+"_"+pos.toString();
+					}
+					else{
+						label = left.label;
+					}
 					pilhaSemantico.push(token);
+					pilhaCodigo.push("    MM "+ label + "\n");
 					elSemantico.pilhaSemantico = pilhaSemantico;
 					break;
 				case 8://(2, "(") -> 17
@@ -248,7 +271,9 @@ public class Semantico {
 				case 12://(6, "identificador") -> 15
 					break;
 				case 13://(6, "inteiro") -> 15
-					pilhaSemantico.push(token);
+					indices = pilhaSemantico.pop_List();
+					indices.add(new Integer(token.valor));
+					pilhaSemantico.push(indices);
 					elSemantico.pilhaSemantico = pilhaSemantico;
 					break;
 				case 14://(7, expressao) -> 9
@@ -256,9 +281,23 @@ public class Semantico {
 				case 15://(8, "(") -> 10
 					break;
 				case 16://(9, ";") -> 11
-					Descritor d = pilhaSemantico.pop_Descritor();
-					switch (d.tipo) {
+					indices = pilhaSemantico.pop_List();
+					Descritor desc = pilhaSemantico.pop_Descritor();
+					switch (desc.tipo) {
 					case VAL_INT:
+						Token t = pilhaSemantico.pop_Token();
+						t = pilhaSemantico.pop_Token(); //desempilha sinal de + ou -
+						//TODO tratar sinal de + ou -
+						analisaToken(t, TipoToken.ATRIB);
+						left=pilhaSemantico.pop_Descritor();
+						if (left.tipo.equals(TipoDescritor.VAR_INT) ||left.tipo.equals(TipoDescritor.VVAR_INT) ){
+							//gera Codigo LV TMP1 MM leftDesc
+							codigoMVN.append("  LV "+desc.label+"\n");
+							codigoMVN.append(pilhaCodigo.pop());
+						}
+						else{
+							erros.add(new Erro(TipoErro.SEMANTICO_TIPOS_DE_DADOS_INCOMPATIVEIS,t));
+						}
 						break;
 					case VAL_BOOL:
 						break;
@@ -273,21 +312,15 @@ public class Semantico {
 					case VAR_BOOL:
 						break;
 					case VAR_INT:
-						Token t = pilhaSemantico.pop_Token();
+						t = pilhaSemantico.pop_Token();
+						t = pilhaSemantico.pop_Token(); //desempilha sinal de + ou -
+						//TODO tratar sinal de + ou -
 						analisaToken(t, TipoToken.ATRIB);
-						t=pilhaSemantico.pop_Token();
-						
-						List indices = new List();
-						while (!t.tipo.equals(TipoToken.ID)){
-							analisaToken(t, TipoToken.NUMERO);
-							indices.add(new Integer(t.valor));
-							t =pilhaSemantico.pop_Token();
-						}
-						analisaToken(t, TipoToken.ID);
-						String ch=t.valor;
-						Descritor leftDesc = escopo.busca(ch);
-						if (leftDesc.tipo.equals(TipoDescritor.VAR_INT) ||leftDesc.tipo.equals(TipoDescritor.VVAR_INT) ){
+						left=pilhaSemantico.pop_Descritor();
+						if (left.tipo.equals(TipoDescritor.VAR_INT) ||left.tipo.equals(TipoDescritor.VVAR_INT) ){
 							//gera Codigo LV TMP1 MM leftDesc
+							codigoMVN.append("  LV "+desc.label+"\n");
+							codigoMVN.append(pilhaCodigo.pop());
 						}
 						else{
 							erros.add(new Erro(TipoErro.SEMANTICO_TIPOS_DE_DADOS_INCOMPATIVEIS,t));
@@ -504,8 +537,17 @@ public class Semantico {
 			case EXPRELACIONAL:
 				switch (transicaoSemantica) {
 				case 0://(0, "identificador") -> 1
-					pilhaSemantico.push(token);
-					elSemantico.pilhaSemantico = pilhaSemantico;
+					String chave = token.valor;
+					Descritor d = escopo.busca(chave);
+					if (d ==null){
+						erros.add(new Erro(TipoErro.SEMANTICO_VARIAVEL_NAO_DECLARADA,token));
+					}
+					else{
+						pilhaSemantico.push(d);
+						indices = new List();
+						pilhaSemantico.push(indices);
+						elSemantico.pilhaSemantico = pilhaSemantico;
+					}
 					break;
 				case 1://(0, "numero") -> 2
 					pilhaSemantico.push(token);
@@ -605,13 +647,28 @@ public class Semantico {
 					elSemantico.pilhaSemantico = pilhaSemantico;
 					break;
 				case 1://(0, "+") -> 1
-					break;
-				case 2://(1, "identificador") -> 2
 					pilhaSemantico.push(token);
 					elSemantico.pilhaSemantico = pilhaSemantico;
 					break;
+				case 2://(1, "identificador") -> 2
+					String chave = token.valor;
+					Descritor d = escopo.busca(chave);
+					if (d ==null){
+						erros.add(new Erro(TipoErro.SEMANTICO_VARIAVEL_NAO_DECLARADA,token));
+					}
+					else{
+						pilhaSemantico.push(d);
+						indices = new List();
+						pilhaSemantico.push(indices);
+						elSemantico.pilhaSemantico = pilhaSemantico;
+					}
+					break;
 				case 3://(1, "numero") -> 3
-					pilhaSemantico.push(token);
+					chave = geraLabel_Const(new Integer(token.valor));
+					d = new Descritor(chave, TipoDescritor.VAL_INT);
+					pilhaSemantico.push(d);
+					indices = new List();
+					pilhaSemantico.push(indices);
 					elSemantico.pilhaSemantico = pilhaSemantico;
 					break;
 				case 4://(1, "(") -> 4
@@ -702,6 +759,27 @@ public class Semantico {
 		return elSemantico;
 	}
 
+	private String geraLabel_Const(Integer valor) {
+		ponteiroAreaDeDados++;
+		String lbl = "COSNT"+tempCounter.toString();
+		tempCounter++;
+		listaDeConstantes.add(lbl);
+		listaDeValoresDeConstantes.add(valor);
+		return lbl;
+	}
+
+
+
+	private String geraLabel_Temp() {
+		ponteiroAreaDeDados++;
+		String lbl = "TMP"+tempCounter.toString();
+		tempCounter++;
+		reservasDeMemoria.add(lbl);
+		return lbl;
+	}
+
+
+
 	private void erroSemantico_redeclaracaoDeVariavel(Token token) {
 		erros.add(new Erro(TipoErro.SEMANTICO_REDECALRACAO_DE_VARIAVEL,token));
 		Util.Log("ErroSemantico-RedeclaracaoDe Variavel");
@@ -788,9 +866,28 @@ public class Semantico {
 		for (int i=0;i<reservasDeMemoria.tamanho;i++){
 			code.append((String)reservasDeMemoria.get(i)+" K /0000\n");
 		}
+		for (int i=0;i<listaDeConstantes.tamanho;i++){
+			code.append((String)listaDeConstantes.get(i)+" K /"+completaZeros((Integer)listaDeValoresDeConstantes.get(i))+"\n");
+		}
 		return code.toString();
 	}
 	
+
+
+
+	private String completaZeros(Integer valor) {
+		String str = Integer.toHexString(valor);
+		int tamanho =str.length();
+		if (tamanho<4){
+			int falta = 4-tamanho;
+			for (int i=0;i<falta;i++){
+				str = "0"+str;
+			}
+		}
+		return str;
+	}
+
+
 
 	private void geraCodigoInicioIf(String endereco) {
 		StringBuffer code = new StringBuffer();
@@ -805,5 +902,6 @@ public class Semantico {
 		return b_int;
 	}
 	
+
 
 }
