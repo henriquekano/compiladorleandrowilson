@@ -252,8 +252,11 @@ public class Semantico {
 					Descritor left = pilhaSemantico.peek_Descritor();
 					String label =null;
 					if (indices.tamanho >0){
-						Integer pos = left.GetPosicao(indices.toIntArray());
+					
+//						Integer pos = left.GetPosicao(indices.toIntArray());
+						Integer pos = left.GetIndice(indices.toIntArray());
 						label = left.label+"_"+pos.toString();
+						indices = new List();
 					}
 					else{
 						label = left.label;
@@ -288,7 +291,7 @@ public class Semantico {
 					switch (desc.tipo) {
 					case VAL_INT:
 						Token t = pilhaSemantico.pop_Token();
-						t = pilhaSemantico.pop_Token(); //desempilha sinal de + ou -
+						//t = pilhaSemantico.pop_Token(); //desempilha sinal de + ou -
 						//TODO tratar sinal de + ou -
 						analisaToken(t, TipoToken.ATRIB);
 						left=pilhaSemantico.pop_Descritor();
@@ -315,7 +318,7 @@ public class Semantico {
 						break;
 					case VAR_INT:
 						t = pilhaSemantico.pop_Token();
-						t = pilhaSemantico.pop_Token(); //desempilha sinal de + ou -
+						//t = pilhaSemantico.pop_Token(); //desempilha sinal de + ou -
 						//TODO tratar sinal de + ou -
 						analisaToken(t, TipoToken.ATRIB);
 						left=pilhaSemantico.pop_Descritor();
@@ -658,14 +661,15 @@ public class Semantico {
 				}
 				break;
 			case EXPARITMETICA:
+				indices = new List();
 				switch (transicaoSemantica) {
 				case 0://(0, "-") -> 1
-					pilhaSemantico.push(token);
-					elSemantico.pilhaSemantico = pilhaSemantico;
+//					pilhaSemantico.push(token);
+//					elSemantico.pilhaSemantico = pilhaSemantico;
 					break;
 				case 1://(0, "+") -> 1
-					pilhaSemantico.push(token);
-					elSemantico.pilhaSemantico = pilhaSemantico;
+//					pilhaSemantico.push(token);
+//					elSemantico.pilhaSemantico = pilhaSemantico;
 					break;
 				case 2://(1, "identificador") -> 2
 					String chave = token.valor;
@@ -674,10 +678,42 @@ public class Semantico {
 						erros.add(new Erro(TipoErro.SEMANTICO_VARIAVEL_NAO_DECLARADA,token));
 					}
 					else{
-						pilhaSemantico.push(d);
-						indices = new List();
-						pilhaSemantico.push(indices);
+						Token t = pilhaSemantico.pop_Token();
+						if (t.tipo.equals(TipoToken.PLUS)) {
+							if (d.tipo.equals(TipoDescritor.VAR_INT)){
+								indices = pilhaSemantico.pop_List(); //joga fora
+								Descritor fakeDesc = pilhaSemantico.pop_Descritor();
+								codigoMVN.append("   + " + d.label);
+								String tmpLabel = geraLabel_Temp();
+								codigoMVN.append("   MM " + tmpLabel);
+								d= new Descritor(tmpLabel,TipoDescritor.VAL_INT);
+								indices = new List();
+								pilhaSemantico.push(d);
+								pilhaSemantico.push(indices);
+							}
+							else{
+								indices = new List();
+								pilhaSemantico.push(d);
+								pilhaSemantico.push(indices);
+							}
+						}
+						else{
+							pilhaSemantico.push(t);
+							if (d.tipo.equals(TipoDescritor.VAR_INT)){
+								codigoMVN.append("   LV " + d.label);
+								indices = new List();
+								pilhaSemantico.push(d);
+								pilhaSemantico.push(indices);
+							}
+							else{
+								indices = new List();
+								pilhaSemantico.push(d);
+								pilhaSemantico.push(indices);
+							}
+							
+						}
 						elSemantico.pilhaSemantico = pilhaSemantico;
+						
 					}
 					break;
 				case 3://(1, "numero") -> 3
@@ -699,6 +735,17 @@ public class Semantico {
 					elSemantico.pilhaSemantico = pilhaSemantico;
 					break;
 				case 6://(2, "+") -> 1
+//					d = pilhaSemantico.pop_Descritor();
+//					String label;
+//					if(indices.tamanho>0){
+//						Integer pos = d.GetPosicao(indices.toIntArray());
+//						label = d.label+"_"+pos.toString();
+//					}
+//					else{
+//						label = d.label;
+//					}
+//					
+//					codigoMVN.append("   LV  "+d.label);
 					pilhaSemantico.push(token);
 					elSemantico.pilhaSemantico = pilhaSemantico;
 					break;
@@ -737,8 +784,40 @@ public class Semantico {
 				case 16://(6, "identificador") -> 7
 					break;
 				case 17://(6, "inteiro") -> 7
-					pilhaSemantico.push(token);
-					elSemantico.pilhaSemantico = pilhaSemantico;
+					indices=pilhaSemantico.pop_List();
+					indices.add(new Integer(token.valor));
+					d=pilhaSemantico.pop_Descritor();
+					String label;
+					if (indices.tamanho == d.indicesMaximosTam){
+						Token tok = pilhaSemantico.pop_Token();
+						if (tok.tipo.equals(TipoToken.PLUS)){
+							Integer pos = d.GetIndice(indices.toIntArray());
+							label = d.label+"_"+pos.toString();
+							codigoMVN.append("   + " + d.label);
+							String tmpLabel = geraLabel_Temp();
+							codigoMVN.append("   MM " + tmpLabel);
+							d= new Descritor(tmpLabel,TipoDescritor.VAL_INT);
+							indices = new List();
+							pilhaSemantico.push(d);
+							pilhaSemantico.push(indices);
+							
+						}
+						else{
+							pilhaSemantico.push(tok);
+							Integer pos = d.GetIndice(indices.toIntArray());
+							label = d.label+"_"+pos.toString();
+							codigoMVN.append("   LV " + d.label);
+							indices = new List();
+							pilhaSemantico.push(d);
+							pilhaSemantico.push(indices);
+							
+							
+						}
+					}
+					else{
+						pilhaSemantico.push(d);
+						pilhaSemantico.push(indices);
+					}
 					break;
 				case 18://(7, "]") -> 2
 					break;
