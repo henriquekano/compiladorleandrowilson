@@ -2,8 +2,10 @@ package leandrowilson.compilador;
 
 public enum TipoToken {
 	//TODO Completar os tipos
+	//PR = Palavra Reservada
 	ID(0),
 	NUMERO(1),
+	BOOLEAN(2),
 	STRING(3),
 	PR_TRUE(6),
 	PR_FALSE(7),

@@ -71,6 +71,12 @@ public class Descritor {
 	Object GetValor(){
 		return valor;
 	}
+	String GetLabel(){
+		return label;
+	}
+	String GetEndereco(){
+		return posicaoInicial.toString();
+	}
 	
 	int GetPosicao(Integer[] indices){
 		Integer posicao = posicaoInicial + indicesMaximos[indicesMaximosTam-1];
