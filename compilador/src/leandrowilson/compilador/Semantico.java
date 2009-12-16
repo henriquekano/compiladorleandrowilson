@@ -16,6 +16,7 @@ public class Semantico {
 	List listaDeValoresDeConstantes = new List();
 	Stack<String> pilhaCodigo = new Stack<String>();
 	Integer tempCounter =0;
+	private static String label_Else = null;
 	
 	public ElementoSemantico analisa(ElementoSemantico elSemantico) {
 		Escopo escopo = elSemantico.escopo;
@@ -905,7 +906,7 @@ public class Semantico {
 	private void geraCodigoInicioIf(String endereco) {
 		StringBuffer code = new StringBuffer();
 		String label_IF = geraLabel_Temp();
-		String label_Else = geraLabel_Temp();
+		label_Else = geraLabel_Temp();
 		code.append("LV " + endereco+"\n");
 		code.append("JZ " + label_IF+"\n");
 		code.append("JP " + label_Else+"\n");
@@ -915,7 +916,7 @@ public class Semantico {
 	private void geraCodigoFimIf(String label_continue) {
 		StringBuffer code = new StringBuffer();
 		code.append("JP " + label_continue);
-		code.append("label_Else ");
+		code.append(label_Else + " ");
 	}
 	private void geraCodigoFimElse(String label_continue){
 		StringBuffer code = new StringBuffer();
