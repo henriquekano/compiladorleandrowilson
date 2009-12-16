@@ -4,13 +4,17 @@ main{
 	int[5] c;
 	boolean booo;
 	boolean[2][5][6] baaa;
-	a = 0;
+	a=+b;
+	a=-b;
+	a=+3;
+	a=+b+a;
+	c[2] = +1;
+	a= +c[2] + b;
+	a = +0;
 	if(a == 0){
-		a = 1;
+		a = +1;
 	}
 	else{
-		a = 2;
+		a = +2;
 	}
-
 }
-
