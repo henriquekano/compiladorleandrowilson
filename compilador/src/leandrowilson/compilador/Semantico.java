@@ -220,6 +220,8 @@ public class Semantico {
 					}
 					break;
 				case 1://(0, "if") -> 2
+					pilhaSemantico.push(token);
+					elSemantico.pilhaSemantico = pilhaSemantico;
 					break;
 				case 2://(0, "while") -> 3
 					break;
@@ -328,12 +330,44 @@ public class Semantico {
 				case 31://(16, "inteiro") -> 18
 					break;
 				case 32://(17, expbooleana) -> 19
+					//Estou considerando que a Expressão Booleana já cria e poe na pilha
+					//o descritor de variável bool e gera o mvn na área de dados
+					d = pilhaSemantico.pop_Descritor();
+					switch (d.tipo) {
+					case VAL_INT:
+						break;
+					case VAL_BOOL:
+						String end = d.GetEndereco();
+						geraCodigoInicioIf(end);
+						break;
+					case VAL_STRING:
+						break;
+					case VVAR_BOOL:
+						break;
+					case VVAR_INT:
+						break;
+					case VVAR_STRING:
+						break;
+					case VAR_BOOL:			
+						break;
+					case VAR_INT:
+						break;
+					case VAR_STRING:
+						break;
+					default:
+						break;
+					}
 					break;
 				case 33://(18, "]") -> 12
 					break;
 				case 34://(19, ")") -> 20
 					break;
 				case 35://(20, "{") -> 21
+					
+					//CRIAR NOVO ESCOPO
+					//COMO FAZER ISSO EM MVN... CHAMAR SUBROTINA?
+					
+					
 					break;
 				case 36://(21, declaracao) -> 21
 					break;
@@ -756,5 +790,20 @@ public class Semantico {
 		}
 		return code.toString();
 	}
+	
+
+	private void geraCodigoInicioIf(String endereco) {
+		StringBuffer code = new StringBuffer();
+		code.append("LV " + endereco);
+		code.append("JZ " /*+ label do IF*/);
+
+	}
+	
+	private int boolToInt(Boolean bool){
+		int b_int = 0;
+		if(bool == false) b_int = 1;
+		return b_int;
+	}
+	
 
 }
