@@ -216,6 +216,7 @@ public class Semantico {
 				break;
 			case COMANDO:
 				List indices=null;
+				String label_continue = null;
 				switch (transicaoSemantica) {
 				case 0://(0, "identificador") -> 1
 					String chave = token.valor;
@@ -266,7 +267,7 @@ public class Semantico {
 					break;
 				case 10://(4, "identificador") -> 25
 					break;
-				case 11://(5, "identificador") -> 8
+				case 11://(5, "identificador") -> 8					
 					break;
 				case 12://(6, "identificador") -> 15
 					break;
@@ -396,27 +397,42 @@ public class Semantico {
 				case 34://(19, ")") -> 20
 					break;
 				case 35://(20, "{") -> 21
-					
-					//CRIAR NOVO ESCOPO
-					//COMO FAZER ISSO EM MVN... CHAMAR SUBROTINA?
-					
-					
+					pilhaSemantico.push(token);
+					contadorEscopo++;
+					escopo = new Escopo(escopo, contadorEscopo);
+					elSemantico.pilhaSemantico = pilhaSemantico;
+					elSemantico.escopo = escopo;
 					break;
 				case 36://(21, declaracao) -> 21
 					break;
 				case 37://(21, comando) -> 21
 					break;
 				case 38://(21, "}") -> 22
+					escopo = escopo.escopoPai;
+					analisaToken(pilhaSemantico.pop_Token(),TipoToken.CHAVE_ABRE);
+					analisaToken(pilhaSemantico.pop_Token(),TipoToken.PR_IF);
+					label_continue = geraLabel_Temp();
+					geraCodigoFimIf(label_continue);
 					break;
 				case 39://(22, "else") -> 23
+					pilhaSemantico.push(token);					
 					break;
 				case 40://(23, "{") -> 24
+					pilhaSemantico.push(token);
+					contadorEscopo++;
+					escopo = new Escopo(escopo, contadorEscopo);
+					elSemantico.pilhaSemantico = pilhaSemantico;
+					elSemantico.escopo = escopo;
 					break;
 				case 41://(24, declaracao) -> 24
 					break;
 				case 42://(24, comando) -> 24
 					break;
 				case 43://(24, "}") -> 11
+					escopo = escopo.escopoPai;
+					analisaToken(pilhaSemantico.pop_Token(),TipoToken.CHAVE_ABRE);
+					analisaToken(pilhaSemantico.pop_Token(),TipoToken.PR_ELSE);
+					geraCodigoFimElse(label_continue);
 					break;
 				case 44://(25, "[") -> 27
 					break;
@@ -768,8 +784,6 @@ public class Semantico {
 		return lbl;
 	}
 
-
-
 	private String geraLabel_Temp() {
 		ponteiroAreaDeDados++;
 		String lbl = "TMP"+tempCounter.toString();
@@ -777,7 +791,6 @@ public class Semantico {
 		reservasDeMemoria.add(lbl);
 		return lbl;
 	}
-
 
 
 	private void erroSemantico_redeclaracaoDeVariavel(Token token) {
@@ -891,9 +904,22 @@ public class Semantico {
 
 	private void geraCodigoInicioIf(String endereco) {
 		StringBuffer code = new StringBuffer();
-		code.append("LV " + endereco);
-		code.append("JZ " /*+ label do IF*/);
-
+		String label_IF = geraLabel_Temp();
+		String label_Else = geraLabel_Temp();
+		code.append("LV " + endereco+"\n");
+		code.append("JZ " + label_IF+"\n");
+		code.append("JP " + label_Else+"\n");
+		code.append("label_IF ");
+		
+	}
+	private void geraCodigoFimIf(String label_continue) {
+		StringBuffer code = new StringBuffer();
+		code.append("JP " + label_continue);
+		code.append("label_Else ");
+	}
+	private void geraCodigoFimElse(String label_continue){
+		StringBuffer code = new StringBuffer();
+		code.append(label_continue + " ");
 	}
 	
 	private int boolToInt(Boolean bool){
