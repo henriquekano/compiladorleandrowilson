@@ -331,7 +331,7 @@ public class Semantico {
 					break;
 				case 32://(17, expbooleana) -> 19
 					//Estou considerando que a Expressão Booleana já cria e poe na pilha
-					//o descritor de variável bool e gera o mvn na área de dados
+					//o descritor de valor bool e gera o mvn na área de dados
 					d = pilhaSemantico.pop_Descritor();
 					switch (d.tipo) {
 					case VAL_INT:
