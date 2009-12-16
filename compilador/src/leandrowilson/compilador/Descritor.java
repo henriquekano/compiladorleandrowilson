@@ -10,9 +10,9 @@ public class Descritor {
 	Object[] valor;
 	Integer posicaoInicial;
 	Integer tamanho;
-	private Integer[] indicesMaximos;
-	private Descritor[] DescritorStrings;
-	private Integer indicesMaximosTam;
+	public Integer[] indicesMaximos;
+	public Descritor[] DescritorStrings;
+	public Integer indicesMaximosTam;
 	
 	//VAL_INT E VAL_BOOL
 	Descritor(Object valor, TipoDescritor tipoDescritor){
@@ -46,8 +46,8 @@ public class Descritor {
 	Descritor(String label, Integer[] indices, TipoDescritor tipoDescritor){
 		this.tipo = tipoDescritor;
 		this.label = label;
-		this.indicesMaximos = indicesMaximos;
-		this.indicesMaximosTam = indicesMaximosTam;
+		this.indicesMaximos = indices;
+		this.indicesMaximosTam = indices.length;
 	}
 	
 	//VVAR_STRING
@@ -93,6 +93,21 @@ public class Descritor {
 		}
 		return result;
 		
+	}
+
+	public Integer GetIndice(Integer[] indices) {
+		Integer posicao = posicaoInicial + indicesMaximos[indicesMaximosTam-1];
+
+		
+		Integer fator =1;
+		posicao=0;
+		Integer index;
+		for (int i=0;i<indices.length;i++){
+			index = indices[indices.length -1-i];
+			posicao += fator * index;
+			fator = indicesMaximos[indices.length -1-i];
+		}
+		return posicao;
 	}
 	
 }
