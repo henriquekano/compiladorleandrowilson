@@ -16,6 +16,9 @@ public class Semantico {
 	List listaDeValoresDeConstantes = new List();
 	Stack<String> pilhaCodigo = new Stack<String>();
 	Integer tempCounter =0;
+	private boolean calculouExpBooleana;
+	private String label_terminaWhile;
+	private String label_While;
 	private static String label_Else = null;
 	
 	public ElementoSemantico analisa(ElementoSemantico elSemantico) {
@@ -233,10 +236,14 @@ public class Semantico {
 					}
 					break;
 				case 1://(0, "if") -> 2
+					calculouExpBooleana = false;
 					pilhaSemantico.push(token);
 					elSemantico.pilhaSemantico = pilhaSemantico;
 					break;
 				case 2://(0, "while") -> 3
+					calculouExpBooleana = false;
+					pilhaSemantico.push(token);
+					elSemantico.pilhaSemantico = pilhaSemantico;
 					break;
 				case 3://(0, "input") -> 4
 					break;
@@ -366,34 +373,35 @@ public class Semantico {
 				case 31://(16, "inteiro") -> 18
 					break;
 				case 32://(17, expbooleana) -> 19
-					//Estou considerando que a Expressão Booleana já cria e poe na pilha
-					//o descritor de valor bool e gera o mvn na área de dados
-					//d = pilhaSemantico.pop_Descritor();
-					d = new Descritor(0, TipoDescritor.VAL_BOOL);
-					d.AtualizaLabel(geraLabel_Temp());
-					switch (d.tipo) {
-					case VAL_INT:
-						break;
-					case VAL_BOOL:
-						String lbl = d.GetLabel();
-						geraCodigoInicioIf(lbl);
-						break;
-					case VAL_STRING:
-						break;
-					case VVAR_BOOL:
-						break;
-					case VVAR_INT:
-						break;
-					case VVAR_STRING:
-						break;
-					case VAR_BOOL:			
-						break;
-					case VAR_INT:
-						break;
-					case VAR_STRING:
-						break;
-					default:
-						break;
+					if(calculouExpBooleana){
+						pilhaSemantico.pop_List();
+						d = pilhaSemantico.pop_Descritor();
+					
+						d.AtualizaLabel(geraLabel_Temp());
+						switch (d.tipo) {
+							case VAL_INT:
+								break;
+							case VAL_BOOL:
+								String lbl = d.GetLabel();
+								geraCodigoInicioIf(lbl);
+								break;
+							case VAL_STRING:
+								break;
+							case VVAR_BOOL:
+								break;
+							case VVAR_INT:
+								break;
+							case VVAR_STRING:
+								break;
+							case VAR_BOOL:			
+								break;
+							case VAR_INT:
+								break;
+							case VAR_STRING:
+								break;
+							default:
+								break;
+						}
 					}
 					break;
 				case 33://(18, "]") -> 12
@@ -435,14 +443,53 @@ public class Semantico {
 				case 43://(24, "}") -> 11
 					escopo = escopo.escopoPai;
 					analisaToken(pilhaSemantico.pop_Token(),TipoToken.CHAVE_ABRE);
-					analisaToken(pilhaSemantico.pop_Token(),TipoToken.PR_ELSE);
-					geraCodigoFimElse(label_continue);
+					Token t = pilhaSemantico.pop_Token();
+					if(t.tipo == TipoToken.PR_ELSE){
+						geraCodigoFimElse(label_continue);
+					}
+					else if(t.tipo == TipoToken.PR_WHILE){
+						geraCodigoFimWhile(label_terminaWhile);
+					}
+					else{
+						analisaToken(t,TipoToken.PR_ELSE);
+						analisaToken(t,TipoToken.PR_WHILE);
+					}
+					
 					break;
 				case 44://(25, "[") -> 27
 					break;
 				case 45://(25, ";") -> 11
 					break;
 				case 46://(26, expbooleana) -> 28
+					if(calculouExpBooleana){
+						pilhaSemantico.pop_List();
+						d = pilhaSemantico.pop_Descritor();
+						d.AtualizaLabel(geraLabel_Temp());
+						switch (d.tipo) {
+							case VAL_INT:
+								break;
+							case VAL_BOOL:
+								String lbl = d.GetLabel();
+								geraCodigoInicioWhile(lbl);
+								break;
+							case VAL_STRING:
+								break;
+							case VVAR_BOOL:
+								break;
+							case VVAR_INT:
+								break;
+							case VVAR_STRING:
+								break;
+							case VAR_BOOL:			
+								break;
+							case VAR_INT:
+								break;
+							case VAR_STRING:
+								break;
+							default:
+								break;
+						}
+					}
 					break;
 				case 47://(27, "identificador") -> 29
 					break;
@@ -509,6 +556,7 @@ public class Semantico {
 				}
 				break;
 			case EXPBOOLEANA:
+				calculouExpBooleana = true;
 				switch (transicaoSemantica) {
 				case 0://(0, "identificador") -> 1
 					String chave = token.valor;
@@ -1027,7 +1075,7 @@ public class Semantico {
 		code.append("LV " + labelParam+"\n");
 		code.append("JZ " + label_IF+"\n");
 		code.append("JP " + label_Else+"\n");
-		code.append("label_IF ");
+		code.append(label_IF + " ");
 		
 	}
 	private void geraCodigoFimIf(String label_continue) {
@@ -1039,6 +1087,24 @@ public class Semantico {
 		StringBuffer code = new StringBuffer();
 		code.append(label_continue + " ");
 	}
+	
+	private void geraCodigoInicioWhile(String labelParam) {
+		StringBuffer code = new StringBuffer();
+		label_While = geraLabel_Temp();
+		String label_percorreWhile = geraLabel_Temp();
+		label_terminaWhile = geraLabel_Temp();
+		
+		code.append(label_While + " LV " + labelParam+"\n");
+		code.append("JZ " + label_percorreWhile+"\n");
+		code.append("JP " + label_terminaWhile+"\n");
+		code.append(label_percorreWhile + " ");
+	}
+	private void geraCodigoFimWhile(String label_continue) {
+		StringBuffer code = new StringBuffer();
+		code.append("JP " + label_While+"\n");
+		code.append(label_terminaWhile + " ");
+	}
+	
 	
 	private int boolToInt(Boolean bool){
 		int b_int = 0;

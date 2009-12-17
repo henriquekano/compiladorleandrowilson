@@ -18,4 +18,8 @@ main{
 	else{
 		a = +2;
 	}
+	b=+0;
+	while(a==b){
+		a = +a +1;
+	}
 }
