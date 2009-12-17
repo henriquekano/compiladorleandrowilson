@@ -607,8 +607,6 @@ public class Semantico {
 				case 7://(1, "&") -> 0
 					break;
 				case 8://(1, "!=") -> 0
-					//pilhaSemantico.push(token);
-					//elSemantico.pilhaSemantico = pilhaSemantico;
 					break;
 				case 9://(1, "==") -> 0
 					pilhaSemantico.push(token);
