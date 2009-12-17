@@ -21,10 +21,10 @@ public static void main(String[] args) {
 		System.out.println("A linguagem de entrada é a C.rveja pois tudo começou com uma tentativa de copiar o C");
 		System.out.println("Mas depois, em busca da felicidade a coisa se desvirtuou e a linguagem final tem muito pouco a ver com C");
 		System.out.println("Entrada: Arquivo com código em linguagem C.rveja");
-		System.out.println("Saída: Arquivo com código em C que executa o programa escrito em LazyK traduzido para a notação lambda");
+		System.out.println("Saída: Arquivo com o MVN gerado");
 		System.out.println("Digite o caminho e nome do arquivo que deseja compilar(Ex.: C:\\Compiladores\\origem.txt):");
 		nomeDoArquivo = scanner.next();
-		System.out.println("Digite o caminho e nome do arquivo de saída(Ex.: C:\\Compiladores\\saida.c):");
+		System.out.println("Digite o caminho e nome do arquivo de saída(Ex.: C:\\Compiladores\\saida.mvn):");
 		arquivoSaida = scanner.next();
 //		nomeDoArquivo = "c:\\testeP2.txt";
 		
