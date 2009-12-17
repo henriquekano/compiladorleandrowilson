@@ -376,7 +376,6 @@ public class Semantico {
 					if(calculouExpBooleana){
 						pilhaSemantico.pop_List();
 						d = pilhaSemantico.pop_Descritor();
-					
 						d.AtualizaLabel(geraLabel_Temp());
 						switch (d.tipo) {
 							case VAL_INT:
