@@ -15,11 +15,14 @@ public class Descritor {
 	public Integer indicesMaximosTam;
 	
 	//VAL_INT E VAL_BOOL
-	Descritor(Object valor, TipoDescritor tipoDescritor){
+	Descritor(Object val, TipoDescritor tipoDescritor){
 		this.tipo = tipoDescritor;
 		tamanho = 1;
 		valor = new Object[tamanho];
-		this.valor[0] = valor;
+		for(int i = 0; i<tamanho; i++){
+			valor[i] = new Object();
+		}
+		valor[0] = val;
 	}
 	
 	//VAL_STRING
@@ -59,13 +62,12 @@ public class Descritor {
 		this.DescritorStrings = strings;
 	}
 	
-	void AtualizaPosicao(Integer posicao){
-		this.posicaoInicial = posicao;
-	}
-	
 	void AtualizaEndBool(Integer posicaoTrue, Integer posicaoFalse){
 		end_false = posicaoFalse;
 		end_true = posicaoTrue;
+	}
+	void AtualizaLabel(String lbl){
+		this.label = label;
 	}
 	
 	Object GetValor(){
@@ -73,9 +75,6 @@ public class Descritor {
 	}
 	String GetLabel(){
 		return label;
-	}
-	String GetEndereco(){
-		return posicaoInicial.toString();
 	}
 	
 	int GetPosicao(Integer[] indices){
@@ -109,5 +108,7 @@ public class Descritor {
 		}
 		return posicao;
 	}
+	
+
 	
 }

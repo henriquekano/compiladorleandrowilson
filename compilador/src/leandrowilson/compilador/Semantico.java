@@ -247,12 +247,10 @@ public class Semantico {
 				case 6://(1, "[") -> 6
 					break;
 				case 7://(1, "=") -> 7
-					
 					indices = pilhaSemantico.pop_List();
 					Descritor left = pilhaSemantico.peek_Descritor();
 					String label =null;
 					if (indices.tamanho >0){
-					
 //						Integer pos = left.GetPosicao(indices.toIntArray());
 						Integer pos = left.GetIndice(indices.toIntArray());
 						label = left.label+"_"+pos.toString();
@@ -370,13 +368,15 @@ public class Semantico {
 				case 32://(17, expbooleana) -> 19
 					//Estou considerando que a Expressão Booleana já cria e poe na pilha
 					//o descritor de valor bool e gera o mvn na área de dados
-					d = pilhaSemantico.pop_Descritor();
+					//d = pilhaSemantico.pop_Descritor();
+					d = new Descritor(0, TipoDescritor.VAL_BOOL);
+					d.AtualizaLabel(geraLabel_Temp());
 					switch (d.tipo) {
 					case VAL_INT:
 						break;
 					case VAL_BOOL:
-						String end = d.GetEndereco();
-						geraCodigoInicioIf(end);
+						String lbl = d.GetLabel();
+						geraCodigoInicioIf(lbl);
 						break;
 					case VAL_STRING:
 						break;
@@ -511,6 +511,39 @@ public class Semantico {
 			case EXPBOOLEANA:
 				switch (transicaoSemantica) {
 				case 0://(0, "identificador") -> 1
+					String chave = token.valor;
+					Descritor d = escopo.busca(chave);
+					Boolean end = false;
+					if (d ==null){
+						erros.add(new Erro(TipoErro.SEMANTICO_VARIAVEL_NAO_DECLARADA,token));
+					}
+					else{
+						Token t = pilhaSemantico.pop_Token();
+						if (t.tipo.equals(TipoToken.EQUAL_COMPARISON)) {
+								indices = pilhaSemantico.pop_List(); //joga fora
+								Descritor fakeDesc = pilhaSemantico.pop_Descritor();
+								codigoMVN.append("   - " + d.label);
+								String tmpLabel = geraLabel_Temp();
+								codigoMVN.append("   MM " + tmpLabel);
+								d= new Descritor(tmpLabel,TipoDescritor.VAL_BOOL);
+								indices = new List();
+								pilhaSemantico.push(d);
+								pilhaSemantico.push(indices);
+								end=true;
+						}
+						else{
+							pilhaSemantico.push(t);
+								codigoMVN.append("   LV " + d.label);
+								indices = new List();
+								pilhaSemantico.push(d);
+								pilhaSemantico.push(indices);
+						}
+						if(end){
+							pilhaSemantico.pop_List();
+							pilhaSemantico.pop_Descritor();
+						}
+						elSemantico.pilhaSemantico = pilhaSemantico;
+					}
 					break;
 				case 1://(0, "true") -> 2
 					break;
@@ -527,8 +560,13 @@ public class Semantico {
 				case 7://(1, "&") -> 0
 					break;
 				case 8://(1, "!=") -> 0
+					//pilhaSemantico.push(token);
+					//elSemantico.pilhaSemantico = pilhaSemantico;
 					break;
 				case 9://(1, "==") -> 0
+					pilhaSemantico.push(token);
+					elSemantico.pilhaSemantico = pilhaSemantico;
+					
 					break;
 				case 10://(2, "|") -> 0
 					break;
@@ -982,11 +1020,11 @@ public class Semantico {
 
 
 
-	private void geraCodigoInicioIf(String endereco) {
+	private void geraCodigoInicioIf(String labelParam) {
 		StringBuffer code = new StringBuffer();
 		String label_IF = geraLabel_Temp();
 		label_Else = geraLabel_Temp();
-		code.append("LV " + endereco+"\n");
+		code.append("LV " + labelParam+"\n");
 		code.append("JZ " + label_IF+"\n");
 		code.append("JP " + label_Else+"\n");
 		code.append("label_IF ");
